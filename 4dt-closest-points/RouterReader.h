@@ -4,7 +4,8 @@
 #include <fstream>
 
 struct RouteReader {
-    RouteReader(const std::string& filename) : in(filename) {
+    RouteReader(const std::string& filename)
+        : in(filename) {
     }
 
     virtual ~RouteReader() {

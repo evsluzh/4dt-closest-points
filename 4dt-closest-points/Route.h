@@ -1,18 +1,19 @@
-#ifndef ROUTE_H
-#define ROUTE_H
+#pragma once
 
 #include "Point.h"
 
-struct Route {
-    Route(size_t size) : points(size) {
+struct Route
+{
+    Route(size_t size)
+        : points(size)
+    {
     }
 
-    const Point& get_point(size_t index) const {
+    const Point& get_point(size_t index) const
+    {
         return points[index];
     }
 
 public:
     std::vector<Point> points;
 };
-
-#endif // ROUTE_H
