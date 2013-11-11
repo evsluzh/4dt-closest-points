@@ -67,8 +67,9 @@ void MainWindow::draw_proection(const Route& route1, const Route& route2, std::v
         }
     }
 
-    Point p1 = route1.get_point(t);
-    Point p2 = route2.get_point(t);
+    Point p1 = route1.get_position(t);
+    Point p2 = route2.get_position(t);
+    std::cout << "Point = " <<  p1.get_x() << ' ' << p1.get_y() << std::endl;
 
     painter.drawEllipse(p1.get_x(), p1.get_y(), 5, 5);
     painter.drawEllipse(p2.get_x(), p2.get_y(), 5, 5);
@@ -126,8 +127,8 @@ void MainWindow::draw_proection1(const Route& route1, const Route& route2, std::
         }
     }
 
-    Point p1 = route1.get_point(t);
-    Point p2 = route2.get_point(t);
+    Point p1 = route1.get_position(t);
+    Point p2 = route2.get_position(t);
 
     painter.drawEllipse(p1.get_t(), p1.get_x(), 5, 5);
     painter.drawEllipse(p2.get_t(), p2.get_x(), 5, 5);
@@ -185,11 +186,12 @@ void MainWindow::draw_proection2(const Route& route1, const Route& route2, std::
         }
     }
 
-    Point p1 = route1.get_point(t);
-    Point p2 = route2.get_point(t);
+    Point p1 = route1.get_position(t);
+    Point p2 = route2.get_position(t);
 
     painter.drawEllipse(p1.get_t(), p1.get_y(), 5, 5);
     painter.drawEllipse(p2.get_t(), p2.get_y(), 5, 5);
+    std::cout << "time = " << t << ' ' << p1.get_t() << ' ' << t << std::endl;
     painter.end();
 
     ui->proection2->setPixmap(QPixmap::fromImage(sourceImage));
@@ -212,5 +214,15 @@ void MainWindow::on_actionOpen_triggered()
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "", tr("Files (*.*)"));
     RouteReader reader(fileName.toStdString().c_str());
     routes = reader.read();
+    draw_routes(routes);
+}
+
+void MainWindow::on_sliderT_valueChanged(int value)
+{
+    draw_routes(routes);
+}
+
+void MainWindow::on_sliderD_valueChanged(int value)
+{
     draw_routes(routes);
 }

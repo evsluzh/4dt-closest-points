@@ -1,6 +1,7 @@
 #pragma once
 
 #include <istream>
+#include <iostream>
 
 const double inf = 1.0e99;
 
@@ -14,6 +15,12 @@ struct Point
     Point(double m_x, double m_y) :
         x(m_x), y(m_y)
     {
+    }
+
+    Point(double m_x, double m_y, double m_t) :
+        x(m_x), y(m_y), t(m_t)
+    {
+        std::cout << "construct " << t << std::endl;
     }
 
     double get_x() const

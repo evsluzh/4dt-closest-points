@@ -20,6 +20,10 @@ public:
 private slots:
     void on_actionOpen_triggered();
 
+    void on_sliderT_valueChanged(int value);
+
+    void on_sliderD_valueChanged(int value);
+
 private:
     void draw_proection1(const Route& route1, const Route& route2, std::vector< std::pair<double, double> > ts, double t);
     void draw_proection2(const Route& route1, const Route& route2, std::vector< std::pair<double, double> > ts, double t);
