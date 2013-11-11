@@ -20,7 +20,57 @@ MainWindow::~MainWindow()
 
 void MainWindow::draw_proection1(const Route& route1, const Route& route2, std::vector< std::pair<double, double> > ts, double t)
 {
+    QRect    rect(ui->proection1->contentsRect());
 
+    QImage sourceImage(rect.size(), QImage::Format_ARGB32_Premultiplied);
+    sourceImage.fill(Qt::white);
+    QPainter painter;
+    painter.begin(&sourceImage);
+    painter.setRenderHint(QPainter::Antialiasing, true);
+    painter.setPen(QPen(Qt::black));
+    for (size_t i = 1; i < route1.get_size(); ++i)
+    {
+        painter.drawLine(route1.get_point(i - 1).get_x(), route1.get_point(i - 1).get_y(),
+                         route1.get_point(i).get_x(), route1.get_point(i).get_y());
+    }
+
+    painter.setPen(QPen(Qt::gray));
+    for (size_t i = 1; i < route2.get_size(); ++i)
+    {
+        painter.drawLine(route2.get_point(i - 1).get_x(), route2.get_point(i - 1).get_y(),
+                         route2.get_point(i).get_x(), route2.get_point(i).get_y());
+    }
+    size_t ptr1 = 1, ptr2 = 1;
+    painter.setPen(QPen(Qt::red));
+    for (size_t i = 0; i < ts.size(); ++i)
+    {
+        while (ptr1 < route1.get_size() && route1.get_point(ptr1).get_t() < ts[i].first)
+        {
+            ++ptr1;
+        }
+        while (ptr2 < route2.get_size() && route2.get_point(ptr2).get_t() < ts[i].first)
+        {
+            ++ptr2;
+        }
+        while (ptr1 < route1.get_size() && route1.get_point(ptr1).get_t() < ts[i].second)
+        {
+            painter.drawLine(route1.get_point(ptr1 - 1).get_x(), route1.get_point(ptr1 - 1).get_y(),
+                             route1.get_point(ptr1).get_x(), route1.get_point(ptr1).get_y());
+            ++ptr1;
+        }
+
+        while (ptr2 < route2.get_size() && route2.get_point(ptr2).get_t() < ts[i].second)
+        {
+            painter.drawLine(route2.get_point(ptr2 - 1).get_x(), route2.get_point(ptr2 - 1).get_y(),
+                             route2.get_point(ptr2).get_x(), route2.get_point(ptr2).get_y());
+            ++ptr2;
+        }
+    }
+
+
+    painter.end();
+
+    ui->proection1->setPixmap(QPixmap::fromImage(sourceImage));
 }
 
 void MainWindow::draw_proection2(const Route& route1, const Route& route2, std::vector< std::pair<double, double> > ts, double t)
@@ -51,21 +101,4 @@ void MainWindow::on_actionOpen_triggered()
     RouteReader reader(fileName.toStdString().c_str());
     routes = reader.read();
     draw_routes(routes);
-}
-
-
-void MainWindow::on_pushButton_clicked()
-{
-    QRect    rect(ui->proection1->contentsRect());
-
-    QImage sourceImage(rect.size(), QImage::Format_ARGB32_Premultiplied);
-    QPainter painter;
-    painter.begin(&sourceImage);
-    painter.setRenderHint(QPainter::Antialiasing, true);
-    painter.setPen(QPen(QColor(0, 255, 0)));
-    painter.drawLine(0,0,100,100);
-    painter.end();
-
-    ui->proection1->setPixmap(QPixmap::fromImage(sourceImage));
-
 }
