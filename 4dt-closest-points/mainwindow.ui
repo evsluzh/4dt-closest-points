@@ -62,7 +62,7 @@
      <string/>
     </property>
    </widget>
-   <widget class="QSlider" name="horizontalSlider">
+   <widget class="QSlider" name="sliderD">
     <property name="geometry">
      <rect>
       <x>410</x>
@@ -71,21 +71,30 @@
       <height>19</height>
      </rect>
     </property>
+    <property name="minimum">
+     <number>50</number>
+    </property>
     <property name="maximum">
-     <number>250</number>
+     <number>100</number>
     </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <widget class="QSpinBox" name="spinBox">
+   <widget class="QSpinBox" name="spinD">
     <property name="geometry">
      <rect>
       <x>450</x>
-      <y>330</y>
+      <y>320</y>
       <width>51</width>
       <height>26</height>
      </rect>
+    </property>
+    <property name="minimum">
+     <number>50</number>
+    </property>
+    <property name="maximum">
+     <number>100</number>
     </property>
    </widget>
    <widget class="QLabel" name="label">
@@ -107,6 +116,53 @@
     </property>
     <property name="text">
      <string>d = </string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>400</y>
+      <width>60</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>t = </string>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="spinT">
+    <property name="geometry">
+     <rect>
+      <x>450</x>
+      <y>390</y>
+      <width>51</width>
+      <height>26</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QSlider" name="sliderT">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>430</y>
+      <width>181</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>250</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
     </property>
    </widget>
   </widget>
@@ -137,9 +193,9 @@
  <resources/>
  <connections>
   <connection>
-   <sender>horizontalSlider</sender>
+   <sender>sliderD</sender>
    <signal>valueChanged(int)</signal>
-   <receiver>spinBox</receiver>
+   <receiver>spinD</receiver>
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -149,6 +205,22 @@
     <hint type="destinationlabel">
      <x>475</x>
      <y>366</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sliderT</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>spinT</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>500</x>
+     <y>463</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>475</x>
+     <y>426</y>
     </hint>
    </hints>
   </connection>
