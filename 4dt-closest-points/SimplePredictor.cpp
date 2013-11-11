@@ -43,12 +43,13 @@ std::vector< std::pair<double, double> > SimplePredictor::getConflict(size_t ind
 }
 
 
-double SimplePredictor::findConfict(Point p1, Point p2, Point q1, Point q2, double d)
+double SimplePredictor::findConfict(const Point& p1, const Point& p2, const Point& q1, const Point& q2, double d)
 {
     // Finding intersection using ternary search
     double l = std::max(p1.get_t(), q1.get_t());
     double r = std::min(p2.get_t(), q2.get_t());
-    if (l >= r) {
+    if (l >= r)
+    {
         return inf;
     }
     for (size_t i = 0; i < 100; ++i)
@@ -73,7 +74,7 @@ double SimplePredictor::findConfict(Point p1, Point p2, Point q1, Point q2, doub
     return (dval < d) ? tm : inf;
 }
 
-double SimplePredictor::calculateDistance(Point p1, Point p2, Point q1, Point q2, double t)
+double SimplePredictor::calculateDistance(const Point& p1, const Point& p2, const Point& q1, const Point& q2, double t)
 {
     std::pair<double, double> pos1 = getPosition(p1, p2, t);
     std::pair<double, double> pos2 = getPosition(q1, q2, t);
@@ -82,7 +83,7 @@ double SimplePredictor::calculateDistance(Point p1, Point p2, Point q1, Point q2
     return sqrt(dx * dx + dy * dy);
 }
 
-std::pair<double, double> SimplePredictor::getPosition(Point p1, Point p2, double t)
+std::pair<double, double> SimplePredictor::getPosition(const Point& p1, const Point& p2, double t)
 {
     double dt = p2.get_t() - p1.get_t();
     double cx = p1.get_x() + (p2.get_x() - p1.get_x()) * (t - p1.get_t()) / dt;

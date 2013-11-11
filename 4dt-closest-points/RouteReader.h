@@ -5,7 +5,8 @@
 #include <vector>
 #include <iostream>
 
-struct RouteReader {
+struct RouteReader
+{
     RouteReader(const std::string& filename) :
         in(filename)
     {

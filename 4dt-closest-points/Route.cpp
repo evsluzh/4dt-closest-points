@@ -1,7 +1,8 @@
 #include "Route.h"
 #include <iostream>
 
-std::istream& operator>> (std::istream &in, Route &route) {
+std::istream& operator>> (std::istream &in, Route &route)
+{
     int n;
     std::cout << "read route" << std::endl;
     in >> n;

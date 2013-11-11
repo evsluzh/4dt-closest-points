@@ -37,7 +37,7 @@ struct Route
 //                r = m;
 //            }
 //        }
-        int l = 1;
+        size_t l = 1;
         while (l < points.size() && t > points[l - 1].get_t())
         {
            ++l;
@@ -61,7 +61,7 @@ struct Route
         return Point(cx, cy, t);
     }
 
-    const size_t get_size() const
+    size_t get_size() const
     {
         return points.size();
     }

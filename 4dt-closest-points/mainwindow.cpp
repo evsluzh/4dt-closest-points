@@ -80,7 +80,7 @@ void MainWindow::draw_proection(const Route& route1, const Route& route2, std::v
 
 void MainWindow::draw_proection1(const Route& route1, const Route& route2, std::vector< std::pair<double, double> > ts, double t)
 {
-    QRect    rect(ui->proection1->contentsRect());
+    QRect rect(ui->proection1->contentsRect());
 
     QImage sourceImage(rect.size(), QImage::Format_ARGB32_Premultiplied);
     sourceImage.fill(Qt::white);
@@ -217,12 +217,12 @@ void MainWindow::on_actionOpen_triggered()
     draw_routes(routes);
 }
 
-void MainWindow::on_sliderT_valueChanged(int value)
+void MainWindow::on_sliderT_valueChanged(int)
 {
     draw_routes(routes);
 }
 
-void MainWindow::on_sliderD_valueChanged(int value)
+void MainWindow::on_sliderD_valueChanged(int)
 {
     draw_routes(routes);
 }

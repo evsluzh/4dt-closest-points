@@ -14,9 +14,9 @@ struct SimplePredictor : public ConflictPredictor
 
     virtual std::vector< std::pair<double, double> > getConflict(size_t index1, size_t index2, double d);
 private:
-    double findConfict(Point p1, Point p2, Point q1, Point q2, double d);
-    double calculateDistance(Point p1, Point p2, Point q1, Point q2, double t);
-    std::pair<double, double> getPosition(Point p1, Point p2, double t);
+    double findConfict(const Point& p1, const Point& p2, const Point& q1, const Point& q2, double d);
+    double calculateDistance(const Point& p1, const Point& p2, const Point& q1, const Point& q2, double t);
+    std::pair<double, double> getPosition(const Point& p1, const Point& p2, double t);
 
     std::vector<Route> routes;
 };

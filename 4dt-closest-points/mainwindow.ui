@@ -148,6 +148,9 @@
       <height>26</height>
      </rect>
     </property>
+    <property name="maximum">
+     <number>250</number>
+    </property>
    </widget>
    <widget class="QSlider" name="sliderT">
     <property name="geometry">
