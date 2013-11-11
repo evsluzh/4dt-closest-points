@@ -1,14 +1,18 @@
 #pragma once
 
+#include <istream>
+
+const double inf = 1.0e99;
+
 struct Point
 {
-    Point()
-        : x(0.0), y(0.0)
+    Point() :
+        x(0.0), y(0.0)
     {
     }
 
-    Point(double m_x, double m_y)
-        : x(m_x), y(m_y)
+    Point(double m_x, double m_y) :
+        x(m_x), y(m_y)
     {
     }
 
@@ -37,7 +41,10 @@ struct Point
         return t;
     }
 
+    friend std::istream& operator>> (std::istream &in, Point &point);
+
 private:
+
     double x, y;
     double vx, vy;
     double t;

@@ -1,12 +1,14 @@
-#include <QtCore/QCoreApplication>
+#include <QtGui/QApplication>
 #include "Point.h"
 #include "Route.h"
-#include "RouterReader.h"
+#include "RouteReader.h"
 #include "GeometricHashing.h"
+#include "mainwindow.h"
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication a(argc, argv);
-    
-    return a.exec();
+    QApplication app(argc, argv);
+    MainWindow window;
+    window.show();
+    return app.exec();
 }

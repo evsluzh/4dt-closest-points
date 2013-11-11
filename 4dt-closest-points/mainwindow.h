@@ -22,7 +22,11 @@ private slots:
     void on_actionOpen_triggered();
 
 private:
+    void draw_proection1(const Route& route1, const Route& route2, std::vector< std::pair<double, double> > ts);
+    void draw_proection2(const Route& route1, const Route& route2, std::vector< std::pair<double, double> > ts);
+    void draw_proection(const Route& route1, const Route& route2, std::vector< std::pair<double, double> > ts);
+    void draw_routes(const std::vector<Route> routes, double t);
+
     Ui::MainWindow *ui;
     std::vector<Route> routes;
 };
-

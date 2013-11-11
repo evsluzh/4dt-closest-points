@@ -4,9 +4,9 @@
 #
 #-------------------------------------------------
 
-QT       += core
+#QT       += core
 
-QT       -= gui
+QT       += gui
 
 QMAKE_CXXFLAGS += -std=c++0x
 
@@ -17,11 +17,20 @@ CONFIG   -= app_bundle
 TEMPLATE = app
 
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    mainwindow.cpp \
+    Point.cpp \
+    Route.cpp \
+    SimplePredictor.cpp
 
 HEADERS += \
     Point.h \
     Route.h \
-    RouterReader.h \
     GeometricHashing.h \
-    ConflictPredictor.h
+    ConflictPredictor.h \
+    mainwindow.h \
+    RouteReader.h \
+    SimplePredictor.h
+
+FORMS += \
+    mainwindow.ui

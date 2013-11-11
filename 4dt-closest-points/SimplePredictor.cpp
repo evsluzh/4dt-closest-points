@@ -48,6 +48,9 @@ double SimplePredictor::findConfict(Point p1, Point p2, Point q1, Point q2, doub
     // Finding intersection using ternary search
     double l = std::max(p1.get_t(), q1.get_t());
     double r = std::min(p2.get_t(), q2.get_t());
+    if (l >= r) {
+        return inf;
+    }
     for (size_t i = 0; i < 100; ++i)
     {
         double m1 = (2.0 * l + r) / 3.0;

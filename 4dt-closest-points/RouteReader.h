@@ -1,14 +1,31 @@
-#ifndef ROUTERREADER_H
-#define ROUTERREADER_H
+#pragma once
 
+#include "Route.h"
 #include <fstream>
+#include <vector>
+#include <iostream>
 
 struct RouteReader {
-    RouteReader(const std::string& filename)
-        : in(filename) {
+    RouteReader(const std::string& filename) :
+        in(filename)
+    {
+        std::cout << "Opening file " << filename << std::endl;
     }
 
-    virtual ~RouteReader() {
+    std::vector<Route> read()
+    {
+        int n;
+        in >> n;
+        std::vector<Route> routes(n);
+        for (int i = 0; i < n; ++i)
+        {
+            in >> routes[i];
+        }
+        return routes;
+    }
+
+    virtual ~RouteReader()
+    {
         in.close();
     }
 
@@ -19,5 +36,3 @@ private:
 
     std::ifstream in;
 };
-
-#endif // ROUTERREADER_H

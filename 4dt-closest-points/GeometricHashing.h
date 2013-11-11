@@ -15,4 +15,3 @@ struct GeometricHashing : ConflictPredictor
     }
 };
 
-#endif // GEOMTRICHASHING_H
