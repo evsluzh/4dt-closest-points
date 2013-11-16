@@ -7,11 +7,11 @@ std::istream& operator>> (std::istream &in, Route &route)
     std::cout << "read route" << std::endl;
     in >> n;
     std::cout << n << " points" << std::endl;
-    route.points.resize(n);
+    route.m_points.resize(n);
     for (int i = 0; i < n; ++i)
     {
         std::cout << "read point " << i << std::endl;
-        in >> route.points[i];
+        in >> route.m_points[i];
     }
     return in;
 }

@@ -4,7 +4,8 @@
 #include "ConflictPredictor.h"
 #include <vector>
 
-struct SimplePredictor : public ConflictPredictor
+struct SimplePredictor
+        : ConflictPredictor
 {
     SimplePredictor(const std::vector<Route>& routes) :
         routes(routes)

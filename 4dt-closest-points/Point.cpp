@@ -2,11 +2,11 @@
 
 std::istream& operator>> (std::istream &in, Point &point)
 {
-    in >> point.x;
-    in >> point.y;
-    in >> point.vx;
-    in >> point.vy;
-    in >> point.t;
+    in >> point.m_x;
+    in >> point.m_y;
+    in >> point.m_vx;
+    in >> point.m_vy;
+    in >> point.m_t;
     return in;
 }
 

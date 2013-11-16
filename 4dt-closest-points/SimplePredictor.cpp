@@ -5,15 +5,16 @@
 
 std::vector< std::pair<double, double> > SimplePredictor::getConflict(size_t index1, size_t index2, double d)
 {
+    std::cout << "getConflict " << d << std::endl;
     size_t ptr1 = 0, ptr2 = 0;
     const Route& route1 = routes[index1];
     const Route& route2 = routes[index2];
     std::vector< std::pair<double, double> > res;
     double t1 = inf;
-    while (ptr1 + 1 < route1.get_size() || ptr2 + 1 < route2.get_size())
+    while (ptr1 + 1 < route1.size() || ptr2 + 1 < route2.size())
     {
-        std::cout << ptr1 << ' ' << ptr2 << std::endl;
-        if (ptr2 + 1 == route2.get_size() || (ptr1 + 1 < route1.get_size() && route1.get_point(ptr1 + 1).get_t() < route2.get_point(ptr2 + 1).get_t()))
+//        std::cout << ptr1 << ' ' << ptr2 << std::endl;
+        if (ptr2 + 1 == route2.size() || (ptr1 + 1 < route1.size() && route1.get_point(ptr1 + 1).t() < route2.get_point(ptr2 + 1).t()))
         {
             ++ptr1;
         }
@@ -46,8 +47,8 @@ std::vector< std::pair<double, double> > SimplePredictor::getConflict(size_t ind
 double SimplePredictor::findConfict(const Point& p1, const Point& p2, const Point& q1, const Point& q2, double d)
 {
     // Finding intersection using ternary search
-    double l = std::max(p1.get_t(), q1.get_t());
-    double r = std::min(p2.get_t(), q2.get_t());
+    double l = std::max(p1.t(), q1.t());
+    double r = std::min(p2.t(), q2.t());
     if (l >= r)
     {
         return inf;
@@ -71,7 +72,7 @@ double SimplePredictor::findConfict(const Point& p1, const Point& p2, const Poin
     }
     double tm = 0.5 * (l + r);
     double dval = calculateDistance(p1, p2, q1, q2, tm);
-    return (dval < d) ? tm : inf;
+    return (dval > d) ? inf : tm;
 }
 
 double SimplePredictor::calculateDistance(const Point& p1, const Point& p2, const Point& q1, const Point& q2, double t)
@@ -85,8 +86,8 @@ double SimplePredictor::calculateDistance(const Point& p1, const Point& p2, cons
 
 std::pair<double, double> SimplePredictor::getPosition(const Point& p1, const Point& p2, double t)
 {
-    double dt = p2.get_t() - p1.get_t();
-    double cx = p1.get_x() + (p2.get_x() - p1.get_x()) * (t - p1.get_t()) / dt;
-    double cy = p1.get_y() + (p2.get_y() - p1.get_y()) * (t - p1.get_t()) / dt;
+    double dt = p2.t() - p1.t();
+    double cx = p1.x() + (p2.x() - p1.x()) * (t - p1.t()) / dt;
+    double cy = p1.y() + (p2.y() - p1.y()) * (t - p1.t()) / dt;
     return std::make_pair(cx, cy);
 }
