@@ -1,39 +1,21 @@
 #pragma once
 
-#include "Route.h"
+#include "route.h"
 #include <fstream>
 #include <vector>
 #include <iostream>
 
 struct RouteReader
 {
-    RouteReader(const std::string& filename) :
-        in(filename)
-    {
-        std::cout << "Opening file " << filename << std::endl;
-    }
+    RouteReader(const std::string& filename);
 
-    std::vector<Route> read()
-    {
-        int n;
-        in >> n;
-        std::vector<Route> routes(n);
-        for (int i = 0; i < n; ++i)
-        {
-            in >> routes[i];
-        }
-        return routes;
-    }
+    std::vector<Route> read();
 
-    virtual ~RouteReader()
-    {
-        in.close();
-    }
-
+    virtual ~RouteReader();
 
 private:
     RouteReader(const RouteReader& src);
     RouteReader& operator = (const RouteReader& src);
 
-    std::ifstream in;
+    std::ifstream m_in;
 };

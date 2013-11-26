@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="proection1">
+   <widget class="QLabel" name="proection_xt">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -30,7 +30,7 @@
      <string/>
     </property>
    </widget>
-   <widget class="QLabel" name="proection2">
+   <widget class="QLabel" name="proection_yt">
     <property name="geometry">
      <rect>
       <x>410</x>
@@ -46,7 +46,7 @@
      <string/>
     </property>
    </widget>
-   <widget class="QLabel" name="proection">
+   <widget class="QLabel" name="proection_yx">
     <property name="geometry">
      <rect>
       <x>20</x>

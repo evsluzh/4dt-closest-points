@@ -1,8 +1,12 @@
 #pragma once
 
-#include <QtGui/QMainWindow>
+#include "route.h"
+#include "edge.h"
+#include "route.h"
 #include <vector>
-#include "Route.h"
+#include <QtGui/QMainWindow>
+#include <QtGui/QLabel>
+#include <boost/function.hpp>
 
 namespace Ui
 {
@@ -25,11 +29,9 @@ private slots:
     void on_sliderD_valueChanged(int value);
 
 private:
-    void draw_proection1(const Route& route1, const Route& route2, std::vector< std::pair<double, double> > ts, double t);
-    void draw_proection2(const Route& route1, const Route& route2, std::vector< std::pair<double, double> > ts, double t);
-    void draw_proection(const Route& route1, const Route& route2, std::vector< std::pair<double, double> > ts, double t);
-    void draw_routes(const std::vector<Route> routes);
+    void draw_projections();
+    void draw_projection(boost::function<double (Point)> x, boost::function<double (Point)> y, QLabel* label);
 
     Ui::MainWindow *ui;
-    std::vector<Route> routes;
+    std::vector<Route> m_routes;
 };

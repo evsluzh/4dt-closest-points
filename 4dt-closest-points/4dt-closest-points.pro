@@ -19,18 +19,21 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     mainwindow.cpp \
-    Point.cpp \
-    Route.cpp \
-    SimplePredictor.cpp
+    point.cpp \
+    route.cpp \
+    routereader.cpp \
+    simplepredictor.cpp \
+    edge.cpp
 
 HEADERS += \
-    Point.h \
-    Route.h \
-    GeometricHashing.h \
-    ConflictPredictor.h \
+    conflictpredictor.h \
+    geometrichashing.h \
     mainwindow.h \
-    RouteReader.h \
-    SimplePredictor.h
+    point.h \
+    route.h \
+    simplepredictor.h \
+    routereader.h \
+    edge.h
 
 FORMS += \
     mainwindow.ui

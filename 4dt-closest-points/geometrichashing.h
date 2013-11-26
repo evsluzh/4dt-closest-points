@@ -1,17 +1,14 @@
 #pragma once
 
-#include "Route.h"
-#include "ConflictPredictor.h"
+#include "route.h"
+#include "conflictpredictor.h"
 #include <vector>
 
-struct GeometricHashing : ConflictPredictor
+struct GeometricHashing :
+        ConflictPredictor
 {
-    GeometricHashing(std::vector<Route> routes)
-    {
-    }
+    GeometricHashing(std::vector<Route> routes);
 
-    std::vector< std::pair<double, double> > calculate(size_t index1, size_t index2, double d)
-    {
-    }
+    std::vector< std::pair<double, double> > calculate(size_t index1, size_t index2, double d);
 };
 

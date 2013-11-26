@@ -8,47 +8,21 @@ const double inf = 1.0e99;
 struct Point
 {
 
-    Point(double x, double y, double t) :
-        m_x(x),
-        m_y(y),
-        m_t(t)
-    {
-    }
+    Point(double x, double y, double t);
 
-    Point(double x, double y) :
-        Point(x, y, 0.0)
-    {
-    }
+    Point(double x, double y);
 
-    Point()
-        : Point(0.0, 0.0)
-    {
-    }
+    Point();
 
-    double x() const
-    {
-        return m_x;
-    }
+    double x() const;
 
-    double y() const
-    {
-        return m_y;
-    }
+    double y() const;
 
-    double vx() const
-    {
-        return m_vx;
-    }
+    double vx() const;
 
-    double vy() const
-    {
-        return m_vy;
-    }
+    double vy() const;
 
-    double t() const
-    {
-        return m_t;
-    }
+    double t() const;
 
     friend std::istream& operator>> (std::istream &in, Point &point);
 

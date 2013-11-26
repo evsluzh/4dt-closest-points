@@ -1,20 +1,52 @@
-#include "SimplePredictor.h"
+#include "simplepredictor.h"
 #include <algorithm>
 #include <cmath>
 #include <iostream>
 
+SimplePredictor::SimplePredictor(const std::vector<Route>& routes) :
+    routes(0)
+{
+
+}
+
 std::vector< std::pair<double, double> > SimplePredictor::getConflict(size_t index1, size_t index2, double d)
 {
+//    std::vector< boost::shared_ptr<Edge> > current_edges(routes.size());
+    std::vector<size_t> iterators(routes.size(), 0);
+    while (true)
+    {
+        int next_routes = -1;
+        for (size_t i = 0; i < routes.size(); ++i)
+        {
+            if (iterators[i] == routes[i].size())
+            {
+                continue;
+            }
+            if (next_routes == -1 || routes[i].edge(iterators[i])->b()->t() < routes[i].edge(iterators[next_routes])->b()->t())
+            {
+                next_routes = i;
+            }
+        }
+        if (next_routes == -1)
+        {
+            break;
+        }
+    }
+
+
     std::cout << "getConflict " << d << std::endl;
     size_t ptr1 = 0, ptr2 = 0;
     const Route& route1 = routes[index1];
     const Route& route2 = routes[index2];
+
+
+
     std::vector< std::pair<double, double> > res;
     double t1 = inf;
     while (ptr1 + 1 < route1.size() || ptr2 + 1 < route2.size())
     {
 //        std::cout << ptr1 << ' ' << ptr2 << std::endl;
-        if (ptr2 + 1 == route2.size() || (ptr1 + 1 < route1.size() && route1.get_point(ptr1 + 1).t() < route2.get_point(ptr2 + 1).t()))
+        if (ptr2 + 1 == route2.size() || (ptr1 + 1 < route1.size() && route1.point(ptr1 + 1)->t() < route2.point(ptr2 + 1)->t()))
         {
             ++ptr1;
         }
@@ -24,7 +56,7 @@ std::vector< std::pair<double, double> > SimplePredictor::getConflict(size_t ind
         }
         if (ptr1 && ptr2)
         {
-            double t = findConfict(route1.get_point(ptr1 - 1), route1.get_point(ptr1), route2.get_point(ptr2 - 1), route2.get_point(ptr2), d);
+            double t = findConfict(*route1.point(ptr1 - 1), *route1.point(ptr1), *route2.point(ptr2 - 1), *route2.point(ptr2), d);
             if (t < inf)
             {
                 std::cout << "T = " << t << std::endl;
