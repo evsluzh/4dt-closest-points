@@ -75,7 +75,7 @@
      <number>50</number>
     </property>
     <property name="maximum">
-     <number>100</number>
+     <number>200</number>
     </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
@@ -94,7 +94,7 @@
      <number>50</number>
     </property>
     <property name="maximum">
-     <number>100</number>
+     <number>200</number>
     </property>
    </widget>
    <widget class="QLabel" name="label">
@@ -224,6 +224,38 @@
     <hint type="destinationlabel">
      <x>475</x>
      <y>426</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spinD</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>sliderD</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>475</x>
+     <y>356</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>500</x>
+     <y>393</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spinT</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>sliderT</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>475</x>
+     <y>426</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>500</x>
+     <y>463</y>
     </hint>
    </hints>
   </connection>

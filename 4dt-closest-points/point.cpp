@@ -1,4 +1,7 @@
 #include "point.h"
+#include <limits>
+#include <cstdlib>
+#include <cmath>
 
 Point::Point(double x, double y, double t) :
     m_x(x),
@@ -40,6 +43,19 @@ double Point::vy() const
 double Point::t() const
 {
     return m_t;
+}
+
+bool Point::infinity() const
+{
+    return (m_x != m_x);
+}
+
+
+double Point::distance_to(const Point& point) const
+{
+    int dx = m_x - point.m_x;
+    int dy = m_y - point.m_y;
+    return sqrt(dx * dx + dy * dy);
 }
 
 std::istream& operator>> (std::istream &in, Point &point)

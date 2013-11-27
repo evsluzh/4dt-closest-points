@@ -30,7 +30,8 @@ private slots:
 
 private:
     void draw_projections();
-    void draw_projection(boost::function<double (Point)> x, boost::function<double (Point)> y, QLabel* label);
+    void draw_projection(boost::function<double (Point)> x, boost::function<double (Point)> y,
+                         QLabel* label, const std::vector< std::pair<double, double> >& conflicts);
 
     Ui::MainWindow *ui;
     std::vector<Route> m_routes;

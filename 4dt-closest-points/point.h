@@ -3,8 +3,6 @@
 #include <istream>
 #include <iostream>
 
-const double inf = 1.0e99;
-
 struct Point
 {
 
@@ -23,6 +21,10 @@ struct Point
     double vy() const;
 
     double t() const;
+
+    double distance_to(const Point& point) const;
+
+    bool infinity() const;
 
     friend std::istream& operator>> (std::istream &in, Point &point);
 
