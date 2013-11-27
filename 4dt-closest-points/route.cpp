@@ -24,7 +24,7 @@ const Point Route::get_position(double t) const
     while (l < r)
     {
         int m = (l + r) >> 1;
-        if (m_edges[m]->a()->t() > t)
+        if (m_edges[m]->b()->t() < t)
         {
             l = m + 1;
         }
@@ -33,22 +33,7 @@ const Point Route::get_position(double t) const
             r = m;
         }
     }
-    double x1 = m_edges[l]->a()->x();
-    double y1 = m_edges[l]->a()->y();
-    double t1 = m_edges[l]->a()->t();
-
-    double x2 = m_edges[l]->b()->x();
-    double y2 = m_edges[l]->b()->y();
-    double t2 = m_edges[l]->b()->t();
-
-    double cx = x1 + (x2 - x1) * (t - t1) / (t2 - t1);
-    double cy = y1 + (y2 - y1) * (t - t1) / (t2 - t1);
-//        std::cout << ">1 " << t1 << ' ' << t2 << ' ' << t << std::endl;
-//        std::cout << ">2 " << x1 << ' ' << y1 << std::endl;
-//        std::cout << ">3 " << x2 << ' ' << y2 << std::endl;
-//        std::cout << ">4 " << cx << ' ' << cy << std::endl;
-//        Point res(cx, cy, t);
-    return Point(cx, cy, t);
+    return edge(l)->point(t);
 }
 
 boost::shared_ptr<Edge> Route::edge(size_t index) const
