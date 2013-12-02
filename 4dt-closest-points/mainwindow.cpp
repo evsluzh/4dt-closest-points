@@ -101,7 +101,7 @@ void MainWindow::draw_projections()
 
     draw_projection(&Point::t, &Point::x, ui->proection_xt, conflicts, t);
     draw_projection(&Point::t, &Point::y, ui->proection_yt, conflicts, t);
-    draw_projection(&Point::y, &Point::x, ui->proection_yx, conflicts, t);
+    draw_projection(&Point::x, &Point::y, ui->proection_yx, conflicts, t);
 }
 
 void MainWindow::on_actionOpen_triggered()

@@ -5,7 +5,7 @@
 #include <limits>
 
 SimplePredictor::SimplePredictor(const std::vector<Route>& routes) :
-    routes(routes)
+    ConflictPredictor(routes)
 {
 
 }
@@ -39,14 +39,14 @@ std::vector< std::pair<double, double> > SimplePredictor::getConflict(size_t ind
 
     std::cout << "getConflict " << d << std::endl;
     size_t ptr1 = 0, ptr2 = 0;
-    Route route1 = routes[index1];
-    Route route2 = routes[index2];
+    Route route1 = m_routes[index1];
+    Route route2 = m_routes[index2];
 
     std::vector< std::pair<double, double> > res;
-    double t1 = std::numeric_limits<double>::quiet_NaN();;
+    double t1 = std::numeric_limits<double>::quiet_NaN();
     while (ptr1 < route1.size() && ptr2 < route2.size())
     {
-        std::cout << ptr1 << ' ' << ptr2 << std::endl;
+//        std::cout << ptr1 << ' ' << ptr2 << std::endl;
         size_t nptr1 = ptr1;
         size_t nptr2 = ptr2;
         if (ptr2 == route2.size() || (ptr1 < route1.size() && route1.edge(ptr1)->b()->t() < route2.edge(ptr2)->b()->t()))

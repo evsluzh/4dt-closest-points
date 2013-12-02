@@ -8,9 +8,8 @@ Route::Route(size_t size) :
 }
 
 Route::Route() :
-    Route(0)
+    m_edges(0)
 {
-
 }
 
 boost::shared_ptr<Point> Route::point(size_t index) const

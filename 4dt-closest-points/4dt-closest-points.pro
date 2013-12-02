@@ -23,7 +23,9 @@ SOURCES += main.cpp \
     route.cpp \
     routereader.cpp \
     simplepredictor.cpp \
-    edge.cpp
+    edge.cpp \
+    geometrichashing.cpp \
+    conflictpredictor.cpp
 
 HEADERS += \
     conflictpredictor.h \

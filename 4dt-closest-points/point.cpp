@@ -11,12 +11,16 @@ Point::Point(double x, double y, double t) :
 }
 
 Point::Point(double x, double y) :
-    Point(x, y, 0.0)
+    m_x(x),
+    m_y(y),
+    m_t(0.0)
 {
 }
 
-Point::Point()
-    : Point(0.0, 0.0)
+Point::Point() :
+    m_x(0.0),
+    m_y(0.0),
+    m_t(0.0)
 {
 }
 

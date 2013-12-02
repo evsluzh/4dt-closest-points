@@ -4,6 +4,8 @@
 #include "conflictpredictor.h"
 #include <vector>
 
+const double vmax = 250.0;
+
 struct GeometricHashing :
         ConflictPredictor
 {
