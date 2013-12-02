@@ -3,6 +3,7 @@
 #include "routereader.h"
 #include "conflictpredictor.h"
 #include "simplepredictor.h"
+#include "geometrichashing.h"
 #include <QtGui/QPainter>
 #include <QtGui/QFileDialog>
 #include <boost/scoped_ptr.hpp>
@@ -95,9 +96,13 @@ void MainWindow::draw_projections()
     }
     double d = ui->spinD->value();
     double t = ui->spinT->value();
-    boost::scoped_ptr<ConflictPredictor> predictor(new SimplePredictor(m_routes));
+    boost::scoped_ptr<ConflictPredictor> predictor(new GeometricHashing(m_routes));
     std::vector< std::pair<double, double> > conflicts = predictor->getConflict(0, 1, d);
     std::cout << "SIZE = " << conflicts.size() << std::endl;
+    for (int i = 0; i < conflicts.size(); ++i)
+    {
+        std::cout << conflicts[i].first << " " << conflicts[i].second << std::endl;
+    }
 
     draw_projection(&Point::t, &Point::x, ui->proection_xt, conflicts, t);
     draw_projection(&Point::t, &Point::y, ui->proection_yt, conflicts, t);

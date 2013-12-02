@@ -149,7 +149,7 @@
      </rect>
     </property>
     <property name="maximum">
-     <number>250</number>
+     <number>245</number>
     </property>
    </widget>
    <widget class="QSlider" name="sliderT">
@@ -162,7 +162,7 @@
      </rect>
     </property>
     <property name="maximum">
-     <number>250</number>
+     <number>245</number>
     </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>

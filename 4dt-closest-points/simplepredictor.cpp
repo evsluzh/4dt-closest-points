@@ -41,6 +41,7 @@ std::vector< std::pair<double, double> > SimplePredictor::getConflict(size_t ind
     size_t ptr1 = 0, ptr2 = 0;
     Route route1 = m_routes[index1];
     Route route2 = m_routes[index2];
+    std::cout << route1.size() << ' ' << route2.size() << std::endl;
 
     std::vector< std::pair<double, double> > res;
     double t1 = std::numeric_limits<double>::quiet_NaN();
