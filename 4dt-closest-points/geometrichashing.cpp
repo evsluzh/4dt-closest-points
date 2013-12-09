@@ -2,16 +2,16 @@
 #include <algorithm>
 #include <limits>
 
-Block::Block(int x, int y) :
-    m_x(x),
-    m_y(y)
+Block::Block(int x, int y)
+    : m_x(x)
+    , m_y(y)
 {
 
 }
 
-Block::Block(const Point& point, double d) :
-    m_x(point.x() / d),
-    m_y(point.y() / d)
+Block::Block(const Point& point, double d)
+    : m_x(point.x() / d)
+    , m_y(point.y() / d)
 {
 }
 

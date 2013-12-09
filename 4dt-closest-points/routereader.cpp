@@ -1,7 +1,7 @@
 #include "routereader.h"
 
-RouteReader::RouteReader(const std::string& filename) :
-    m_in(filename)
+RouteReader::RouteReader(const std::string& filename)
+    : m_in(filename)
 {
     std::cout << "Opening file " << filename << std::endl;
 }

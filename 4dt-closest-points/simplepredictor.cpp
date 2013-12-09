@@ -4,8 +4,8 @@
 #include <iostream>
 #include <limits>
 
-SimplePredictor::SimplePredictor(const std::vector<Route>& routes) :
-    ConflictPredictor(routes)
+SimplePredictor::SimplePredictor(const std::vector<Route>& routes)
+    : ConflictPredictor(routes)
 {
 
 }

@@ -3,10 +3,10 @@
 #include <cstdlib>
 #include <cmath>
 
-Point::Point(double x, double y, double t) :
-    m_x(x),
-    m_y(y),
-    m_t(t)
+Point::Point(double x, double y, double t)
+    : m_x(x)
+    , m_y(y)
+    , m_t(t)
 {
 }
 
@@ -17,10 +17,10 @@ Point::Point(double x, double y)
 {
 }
 
-Point::Point() :
-    m_x(0.0),
-    m_y(0.0),
-    m_t(0.0)
+Point::Point()
+    : m_x(0.0)
+    , m_y(0.0)
+    , m_t(0.0)
 {
 }
 

@@ -2,13 +2,13 @@
 #include <iostream>
 #include <boost/shared_ptr.hpp>
 
-Route::Route(size_t size) :
-    m_edges(size)
+Route::Route(size_t size)
+    : m_edges(size)
 {
 }
 
-Route::Route() :
-    m_edges(0)
+Route::Route()
+    : m_edges(0)
 {
 }
 
