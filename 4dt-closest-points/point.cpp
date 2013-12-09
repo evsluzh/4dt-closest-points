@@ -10,10 +10,10 @@ Point::Point(double x, double y, double t) :
 {
 }
 
-Point::Point(double x, double y) :
-    m_x(x),
-    m_y(y),
-    m_t(0.0)
+Point::Point(double x, double y)
+    : m_x(x)
+    , m_y(y)
+    , m_t(0.0)
 {
 }
 
