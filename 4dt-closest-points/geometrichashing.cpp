@@ -49,11 +49,11 @@ GeometricHashing::GeometricHashing(const std::vector<Route>& routes) :
         start_time = std::min(start_time, routes[i].edge(0)->a()->t());
         finish_time = std::max(finish_time, routes[i].edge(routes[i].size() - 1)->b()->t());
     }
-    std::cout << "Ok2" << std::endl;
+//    std::cout << "Ok2" << std::endl;
     std::vector<size_t> pointers(routes.size(), 0);
     for (double t = start_time; t < finish_time; t += dt)
     {
-        std::cout << "CUR T = " << t << std::endl;
+//        std::cout << "CUR T = " << t << std::endl;
         std::map<Block, std::vector< std::pair<size_t, size_t> > > blocks;
         for (size_t i = 0; i < routes.size(); ++i)
         {

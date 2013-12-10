@@ -35,8 +35,6 @@ struct GeometricHashing :
 
 private:
     // Map from routes indices to set of edges indices
-//    std::map<int, int> m_conflicts;
-//    std::map<int, int> m_conflicts;
     std::map<std::pair<size_t, size_t>, std::set< std::pair<size_t, size_t> > > m_conflicts;
 };
 

@@ -38,7 +38,9 @@ void MainWindow::draw_projection(boost::function<double (Point)> x, boost::funct
         bool is_conflict = false;
         for (size_t i = 0; i != route_it->size(); ++i)
         {
+//            std::cout << "Edge " << i << std::endl;
             boost::shared_ptr<Edge> edge = route_it->edge(i);
+//            std::cout << "Painting ... " << std::endl;
             if (is_conflict)
             {
                 painter.setPen(QPen(Qt::red));
@@ -49,6 +51,7 @@ void MainWindow::draw_projection(boost::function<double (Point)> x, boost::funct
             }
             painter.drawLine(x(*edge->a()), y(*edge->a()),
                              x(*edge->b()), y(*edge->b()));
+//            std::cout << "Painted" << std::endl;
             if (!is_conflict)
             {
                 while (j < conflicts.size() && conflicts[j].first < edge->a()->t())
@@ -84,9 +87,10 @@ void MainWindow::draw_projection(boost::function<double (Point)> x, boost::funct
                 }
             }
         }
-        painter.setPen(QPen(Qt::red));
         Point p;
         if (route_it->get_position(t, p)) {
+            std::cout << "Ok " << x(p) << ' ' << y(p) << std::endl;
+            painter.setPen(QPen(Qt::red));
             painter.drawEllipse(x(p), y(p), 5, 5);
         }
     }

@@ -20,7 +20,7 @@ bool Edge::intersect(const Edge& edge, double d, double& time) const
         return false;
     }
     val1 -= d; val2 -= d;
-    std::cout << val1 << ' ' << val2 << std::endl;
+    std::cout << l << ' ' << r << ' ' << val1 << ' ' << val2 << std::endl;
     if (val1 * val2 > 0)
     {
         return false;
