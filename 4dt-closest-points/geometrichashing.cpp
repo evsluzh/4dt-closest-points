@@ -57,8 +57,8 @@ GeometricHashing::GeometricHashing(const std::vector<Route>& routes) :
         std::map<Block, std::vector< std::pair<size_t, size_t> > > blocks;
         for (size_t i = 0; i < routes.size(); ++i)
         {
-            Point point = routes[i].get_position(t);
-            if (point.x() == point.x())
+            Point point;
+            if (routes[i].get_position(t, point))
             {
                 while (pointers[i] < routes[i].size() && routes[i].edge(pointers[i])->b()->t() < t)
                 {
@@ -90,20 +90,22 @@ std::vector< std::pair<double, double> > GeometricHashing::getConflict(size_t in
     std::cout << "IN" << std::endl;
     std::vector< std::pair<double, double> > res;
     std::set< std::pair<size_t, size_t> > current_conflicts = m_conflicts[std::make_pair(index1, index2)];
-    double lt = std::numeric_limits<double>::quiet_NaN();
+    double lt;
+    bool in_conflict = false;
     for (auto it = current_conflicts.begin(); it != current_conflicts.end(); ++it)
     {
-        double ct = m_routes[index1].edge(it->first)->intersect(*m_routes[index2].edge(it->second), d);
-        if (ct == ct)
+        double ct;
+        if (m_routes[index1].edge(it->first)->intersect(*m_routes[index2].edge(it->second), d, ct))
         {
-            if (lt == lt)
+            if (in_conflict)
             {
                 res.push_back(std::make_pair(lt, ct));
-                lt = std::numeric_limits<double>::quiet_NaN();
+                in_conflict = false;
             }
             else
             {
                 lt = ct;
+                in_conflict = true;
             }
         }
 

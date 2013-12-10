@@ -60,9 +60,11 @@ void MainWindow::draw_projection(boost::function<double (Point)> x, boost::funct
                     is_conflict = true;
                     painter.setPen(QPen(Qt::red));
                     double t = conflicts[j].first;
-                    Point start = edge->point(t);
-                    painter.drawLine(x(start), y(start),
-                                     x(*edge->b()), y(*edge->b()));
+                    Point start;
+                    if (edge->get_point(t, start)) {
+                        painter.drawLine(x(start), y(start),
+                                         x(*edge->b()), y(*edge->b()));
+                    }
                 }
             }
 
@@ -73,16 +75,20 @@ void MainWindow::draw_projection(boost::function<double (Point)> x, boost::funct
                     is_conflict = false;
                     painter.setPen(QPen(Qt::black));
                     double t = conflicts[j].second;
-                    Point start = edge->point(t);
-                    painter.drawLine(x(start), y(start),
+                    Point start;
+                    if (edge->get_point(t, start)) {
+                        painter.drawLine(x(start), y(start),
                                      x(*edge->b()), y(*edge->b()));
+                    }
                     ++j;
                 }
             }
         }
         painter.setPen(QPen(Qt::red));
-        Point p = route_it->get_position(t);
-        painter.drawEllipse(x(p), y(p), 5, 5);
+        Point p;
+        if (route_it->get_position(t, p)) {
+            painter.drawEllipse(x(p), y(p), 5, 5);
+        }
     }
     painter.end();
     label->setPixmap(QPixmap::fromImage(sourceImage));

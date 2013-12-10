@@ -17,7 +17,7 @@ struct Route
 
     boost::shared_ptr<Edge> edge(size_t index) const;
 
-    const Point get_position(double t) const;
+    bool get_position(double t, Point& point) const;
 
     size_t size() const;
 

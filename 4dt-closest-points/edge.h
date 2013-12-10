@@ -11,11 +11,11 @@ struct Edge
 
     boost::shared_ptr<Point> b() const;
 
-    double intersect(const Edge& edge, double d) const;
+    bool intersect(const Edge& edge, double d, double& time) const;
 
-    Point point(double t) const;
+    bool get_point(double t, Point& point) const;
 private:
-    double distance(const Edge& edge, double t) const;
+    bool distance(const Edge& edge, double t, double& dist) const;
 
     boost::shared_ptr<Point> m_a;
     boost::shared_ptr<Point> m_b;

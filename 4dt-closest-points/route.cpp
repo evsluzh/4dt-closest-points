@@ -17,7 +17,7 @@ boost::shared_ptr<Point> Route::point(size_t index) const
     return m_edges[index]->a();
 }
 
-const Point Route::get_position(double t) const
+bool Route::get_position(double t, Point& p) const
 {
     int l = 0, r = size();
     while (l < r)
@@ -32,7 +32,7 @@ const Point Route::get_position(double t) const
             r = m;
         }
     }
-    return edge(l)->point(t);
+    return edge(l)->get_point(t, p);
 }
 
 boost::shared_ptr<Edge> Route::edge(size_t index) const
@@ -45,7 +45,7 @@ size_t Route::size() const
     return m_edges.size();
 }
 
-std::istream& operator>> (std::istream &in, Route &route)
+std::istream& operator >> (std::istream &in, Route &route)
 {
     int n;
     std::cout << "read route" << std::endl;

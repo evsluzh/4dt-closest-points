@@ -44,7 +44,8 @@ std::vector< std::pair<double, double> > SimplePredictor::getConflict(size_t ind
     std::cout << route1.size() << ' ' << route2.size() << std::endl;
 
     std::vector< std::pair<double, double> > res;
-    double t1 = std::numeric_limits<double>::quiet_NaN();
+    double t1 = 0.0;
+    bool in_conflict = false;
     while (ptr1 < route1.size() && ptr2 < route2.size())
     {
 //        std::cout << ptr1 << ' ' << ptr2 << std::endl;
@@ -60,19 +61,19 @@ std::vector< std::pair<double, double> > SimplePredictor::getConflict(size_t ind
         }
         if (ptr1 && ptr2)
         {
-            double t = route1.edge(ptr1)->intersect(*route2.edge(ptr2), d);
-            if (t == t)
+            double t;
+            if (route1.edge(ptr1)->intersect(*route2.edge(ptr2), d, t))
             {
                 std::cout << "T = " << t << std::endl;
-                std::cout << std::numeric_limits<double>::quiet_NaN() << std::endl;
-                if (t1 == t1)
+                if (in_conflict)
                 {
                     res.push_back(std::make_pair(t1, t));
-                    t1 = std::numeric_limits<double>::quiet_NaN();
+                    in_conflict = false;
                 }
                 else
                 {
                     t1 = t;
+                    in_conflict = true;
                 }
             }
         }
