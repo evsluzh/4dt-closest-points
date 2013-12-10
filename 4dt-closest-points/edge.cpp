@@ -19,40 +19,36 @@ bool Edge::intersect(const Edge& edge, double d, double& time) const
     if (!distance(edge, l, val1) || !distance(edge, r, val2)) {
         return false;
     }
+    val1 -= d; val2 -= d;
     std::cout << val1 << ' ' << val2 << std::endl;
-    if (val1 > d && val2 > d)
+    if (val1 * val2 > 0)
     {
         return false;
     }
-    if (val1 < d && val2 < d)
+    if (val1 <= 0 && val2 <= 0) {
+        return false;
+    }
+    if (fabs(val1) < 1.0e-7 && fabs(val2) < 1.0e-7)
     {
         return false;
     }
+    std::cout << "Go" << std::endl;
     for (size_t i = 0; i < 100; ++i)
     {
-        double m1 = (2.0 * l + r) / 3.0;
-        double m2 = (l + 2.0 * r) / 3.0;
-
-        double d1, d2;
-        distance(edge, m1, d1);
-        distance(edge, m2, d2);
-
-        if (d1 > d2)
-        {
-            l = m1;
-        }
-        else
-        {
-            r = m2;
+        double m = 0.5 * (l + r);
+        double dist;
+        distance(edge, m, dist);
+        dist -= d;
+        if (val1 * dist <= 0) {
+            r = m;
+            val2 = dist;
+        } else {
+            l = m;
+            val1 = dist;
         }
     }
     double tm = 0.5 * (l + r);
-    double dval;
-    distance(edge, tm, dval);
-    std::cout << "DVAL = " << dval << " " << d << std::endl;
-    if (dval > d) {
-        return false;
-    }
+    std::cout << "TIME = " << tm << std::endl;
     time = tm;
     return true;
 }
