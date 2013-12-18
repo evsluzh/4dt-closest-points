@@ -3,6 +3,17 @@
 #include <cstdlib>
 #include <cmath>
 
+Point::Point(double x, double y, double vx, double vy, double t)
+    : m_x(x)
+    , m_y(y)
+//    , m_vx(vx)
+//    , m_vy(vy)
+    , m_t(t)
+{
+
+}
+
+
 Point::Point(double x, double y, double t)
     : m_x(x)
     , m_y(y)

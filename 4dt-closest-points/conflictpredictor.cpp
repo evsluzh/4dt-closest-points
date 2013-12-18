@@ -6,6 +6,7 @@ ConflictPredictor::ConflictPredictor(const std::vector<Route>& routes)
 
 }
 
-ConflictPredictor::~ConflictPredictor() {
+ConflictPredictor::~ConflictPredictor()
+{
 
 }

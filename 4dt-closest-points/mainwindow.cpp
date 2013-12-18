@@ -4,6 +4,8 @@
 #include "conflictpredictor.h"
 #include "simplepredictor.h"
 #include "geometrichashing.h"
+#include "generatedialog.h"
+#include "routesgenerator.h"
 #include <QtGui/QPainter>
 #include <QtGui/QFileDialog>
 #include <boost/scoped_ptr.hpp>
@@ -20,6 +22,15 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+std::pair<int, int> MainWindow::normalize(double x, double y, double minx, double maxx, double miny, double maxy, QLabel* label) const
+{
+    x -= minx;
+    y -= miny;
+    maxx -= minx;
+    maxy -= miny;
+    return std::make_pair(label->width() * x / maxx, label->height() * y / maxy);
+}
+
 void MainWindow::draw_projection(boost::function<double (Point)> x, boost::function<double (Point)> y, QLabel* label, const std::vector< std::pair<double, double> >& conflicts, double t)
 {
     QRect rect(label->contentsRect());
@@ -31,16 +42,46 @@ void MainWindow::draw_projection(boost::function<double (Point)> x, boost::funct
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(QPen(Qt::black));
 
+    double minx = 1.0e99, maxx = -1.0e99;
+    double miny = 1.0e99, maxy = -1.0e99;
+    double mint = 1.0e99, maxt = -1.0e99;
+
     for (auto route_it = m_routes.begin(); route_it != m_routes.end(); ++route_it)
     {
-        std::cout << "GO " << route_it->edge(0)->a()->x() << std::endl;
+        for (size_t i = 0; i <= route_it->size(); ++i)
+        {
+            minx = std::min(minx, x(*route_it->point(i)));
+            maxx = std::max(maxx, x(*route_it->point(i)));
+
+            miny = std::min(miny, y(*route_it->point(i)));
+            maxy = std::max(maxy, y(*route_it->point(i)));
+
+            mint = std::min(mint, route_it->point(i)->t());
+            maxt = std::max(maxt, route_it->point(i)->t());
+        }
+    }
+    double diffx = maxx - minx;
+    double diffy = maxy - miny;
+    double difft = maxt - mint;
+
+    minx -= 0.1 * diffx;
+    maxx += 0.1 * diffx;
+
+    miny -= 0.1 * diffy;
+    maxy += 0.1 * diffy;
+
+    mint -= 0.1 * difft;
+    maxt += 0.1 * difft;
+
+    std::cout << "(" << minx << ", " << miny << ") (" << maxx << ", " << maxy << ")" << std::endl;
+
+    for (auto route_it = m_routes.begin(); route_it != m_routes.end(); ++route_it)
+    {
         size_t j = 0;
         bool is_conflict = false;
         for (size_t i = 0; i != route_it->size(); ++i)
         {
-//            std::cout << "Edge " << i << std::endl;
             boost::shared_ptr<Edge> edge = route_it->edge(i);
-//            std::cout << "Painting ... " << std::endl;
             if (is_conflict)
             {
                 painter.setPen(QPen(Qt::red));
@@ -49,9 +90,10 @@ void MainWindow::draw_projection(boost::function<double (Point)> x, boost::funct
             {
                 painter.setPen(QPen(Qt::black));
             }
-            painter.drawLine(x(*edge->a()), y(*edge->a()),
-                             x(*edge->b()), y(*edge->b()));
-//            std::cout << "Painted" << std::endl;
+            std::pair<int, int> pa = normalize(x(*edge->a()), y(*edge->a()), minx, maxx, miny, maxy, label);
+            std::pair<int, int> pb = normalize(x(*edge->b()), y(*edge->b()), minx, maxx, miny, maxy, label);
+            painter.drawLine(pa.first, pa.second,
+                             pb.first, pb.second);
             if (!is_conflict)
             {
                 while (j < conflicts.size() && conflicts[j].first < edge->a()->t())
@@ -65,8 +107,10 @@ void MainWindow::draw_projection(boost::function<double (Point)> x, boost::funct
                     double t = conflicts[j].first;
                     Point start;
                     if (edge->get_point(t, start)) {
-                        painter.drawLine(x(start), y(start),
-                                         x(*edge->b()), y(*edge->b()));
+                        std::pair<int, int> pa = normalize(x(start), y(start), minx, maxx, miny, maxy, label);
+                        std::pair<int, int> pb = normalize(x(*edge->b()), y(*edge->b()), minx, maxx, miny, maxy, label);
+                        painter.drawLine(pa.first, pa.second,
+                                         pb.first, pb.second);
                     }
                 }
             }
@@ -80,18 +124,21 @@ void MainWindow::draw_projection(boost::function<double (Point)> x, boost::funct
                     double t = conflicts[j].second;
                     Point start;
                     if (edge->get_point(t, start)) {
-                        painter.drawLine(x(start), y(start),
-                                     x(*edge->b()), y(*edge->b()));
+                        std::pair<int, int> pa = normalize(x(start), y(start), minx, maxx, miny, maxy, label);
+                        std::pair<int, int> pb = normalize(x(*edge->b()), y(*edge->b()), minx, maxx, miny, maxy, label);
+                        painter.drawLine(pa.first, pa.second,
+                                         pb.first, pb.second);
                     }
                     ++j;
                 }
             }
         }
         Point p;
-        if (route_it->get_position(t, p)) {
-            std::cout << "Ok " << x(p) << ' ' << y(p) << std::endl;
+        double time = mint + (maxt - mint) * t * 0.01;
+        if (route_it->get_position(time, p)) {
             painter.setPen(QPen(Qt::red));
-            painter.drawEllipse(x(p), y(p), 5, 5);
+            std::pair<int, int> pt = normalize(x(p), y(p), minx, maxx, miny, maxy, label);
+            painter.drawEllipse(pt.first, pt.second, 5, 5);
         }
     }
     painter.end();
@@ -128,6 +175,19 @@ void MainWindow::on_actionOpen_triggered()
         m_routes = reader.read();
         draw_projections();
     }
+}
+
+void MainWindow::on_actionGenerate_routes_triggered()
+{
+    GenerateDialog* dialog = new GenerateDialog(this);
+//    dialog->show();
+    if (dialog->exec() == QDialog::Accepted)
+    {
+        boost::scoped_ptr<RoutesGenerator> gen(new RoutesGenerator(dialog->based_points(), dialog->routes_count(), dialog->route_points()));
+        m_routes = gen->generate();
+        draw_projections();
+    }
+    delete dialog;
 }
 
 void MainWindow::on_sliderT_valueChanged(int)

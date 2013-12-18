@@ -25,7 +25,9 @@ SOURCES += main.cpp \
     simplepredictor.cpp \
     edge.cpp \
     geometrichashing.cpp \
-    conflictpredictor.cpp
+    conflictpredictor.cpp \
+    generatedialog.cpp \
+    routesgenerator.cpp
 
 HEADERS += \
     conflictpredictor.h \
@@ -35,7 +37,10 @@ HEADERS += \
     route.h \
     simplepredictor.h \
     routereader.h \
-    edge.h
+    edge.h \
+    generatedialog.h \
+    routesgenerator.h
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    generatedialog.ui

@@ -11,6 +11,8 @@ struct Route
 {
     Route(size_t size);
 
+    explicit Route(const std::vector<Point>& points);
+
     Route();
 
     boost::shared_ptr<Point> point(size_t index) const;

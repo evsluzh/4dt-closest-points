@@ -5,6 +5,7 @@
 
 struct Point
 {
+    Point(double x, double y, double vx, double vy, double t);
 
     Point(double x, double y, double t);
 

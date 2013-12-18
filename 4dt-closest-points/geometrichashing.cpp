@@ -89,13 +89,38 @@ std::vector< std::pair<double, double> > GeometricHashing::getConflict(size_t in
 {
     std::cout << "IN" << std::endl;
     std::vector< std::pair<double, double> > res;
+    const Route& route1 = m_routes[index1];
+    const Route& route2 = m_routes[index2];
     std::set< std::pair<size_t, size_t> > current_conflicts = m_conflicts[std::make_pair(index1, index2)];
     double lt;
     bool in_conflict = false;
+
     for (auto it = current_conflicts.begin(); it != current_conflicts.end(); ++it)
     {
         double ct;
-        if (m_routes[index1].edge(it->first)->intersect(*m_routes[index2].edge(it->second), d, ct))
+        int ptr1 = it->first, ptr2 = it->second;
+
+        if (ptr1 == 0)
+        {
+            double t = route1.point(0)->t();
+            double dist = 0.0;
+            if (route1.edge(ptr1)->distance(*route2.edge(ptr2), t, dist) && dist <= d)
+            {
+                in_conflict = true;
+                lt = t;
+            }
+        }
+        if (ptr2 == 0)
+        {
+            double t = route2.point(0)->t();
+            double dist = 0.0;
+            if (route1.edge(ptr1)->distance(*route2.edge(ptr2), t, dist) && dist <= d)
+            {
+                in_conflict = true;
+                lt = t;
+            }
+        }
+        if (route1.edge(it->first)->intersect(*route2.edge(it->second), d, ct))
         {
             if (in_conflict)
             {
@@ -110,65 +135,10 @@ std::vector< std::pair<double, double> > GeometricHashing::getConflict(size_t in
         }
 
     }
-    std::cout << "OUT" << std::endl;
-    /*double dt = d / vmax;
-    Route route1 = m_routes[index1];
-    Route route2 = m_routes[index2];
-    double start_time = std::min(route1.edge(0)->a()->t(), route2.edge(0)->a()->t());
-    double end_time = std::max(route1.edge(route1.size() - 1)->b()->t(), route2.edge(route2.size() - 1)->b()->t());
-    size_t ptr1 = 0;
-    size_t ptr2 = 0;
-    size_t last_ptr1 = -1;
-    size_t last_ptr2 = -1;
-    std::vector< std::pair<double, double> > res;
-    double lt = std::numeric_limits<double>::quiet_NaN();
-    for (double t = start_time; t < end_time; t += dt)
+    if (in_conflict)
     {
-        Point p1 = route1.get_position(t);
-        Point p2 = route2.get_position(t);
-        if (p1.infinity() || p2.infinity())
-        {
-            continue;
-        }
-        Block b1(p1, d);
-        Block b2(p2, d);
-//        std::cout << b1.x() << ", " << b1.y() << " - " << b2.x() << ", " << b2.y() << "  " <<
-//                  abs(b1.x() - b2.x()) << " " << abs(b1.y() - b2.y()) << std::endl;
-        int cd = std::max(abs(b1.x() - b2.x()), abs(b1.y() - b2.y()));
-//        std::cout << "R = " << cd << std::endl;
-        if (cd <= 1)
-        {
-            while (ptr1 < route1.size() && route1.edge(ptr1)->b()->t() < t)
-            {
-                ++ptr1;
-            }
-            while (ptr2 < route2.size() && route2.edge(ptr2)->b()->t() < t)
-            {
-                ++ptr2;
-            }
-//            std::cout << " > " << ptr1 << " " << ptr2 << std::endl;
-            if (ptr1 != last_ptr1 || ptr2 != last_ptr2)
-            {
-                if (ptr1 < route1.size() && ptr2 < route2.size())
-                {
-                    double ct = route1.edge(ptr1)->intersect(*route2.edge(ptr2), d);
-                    if (ct == ct)
-                    {
-                        if (lt == lt)
-                        {
-                            res.push_back(std::make_pair(lt, ct));
-                            lt = std::numeric_limits<double>::quiet_NaN();
-                        }
-                        else
-                        {
-                            lt = ct;
-                        }
-                    }
-                }
-                last_ptr1 = ptr1;
-                last_ptr2 = ptr2;
-            }
-        }
-    }*/
+        res.push_back(std::make_pair(lt, std::min(route1.point(route1.size())->t(), route2.point(route2.size())->t())));
+    }
+    std::cout << "OUT" << std::endl;
     return res;
 }

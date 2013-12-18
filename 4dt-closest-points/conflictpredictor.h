@@ -14,4 +14,3 @@ struct ConflictPredictor
 protected:
     std::vector<Route> m_routes;
 };
-

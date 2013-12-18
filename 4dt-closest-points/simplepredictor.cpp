@@ -39,16 +39,16 @@ std::vector< std::pair<double, double> > SimplePredictor::getConflict(size_t ind
 
     std::cout << "getConflict " << d << std::endl;
     size_t ptr1 = 0, ptr2 = 0;
-    Route route1 = m_routes[index1];
-    Route route2 = m_routes[index2];
-    std::cout << route1.size() << ' ' << route2.size() << std::endl;
+    const Route& route1 = m_routes[index1];
+    const Route& route2 = m_routes[index2];
+//    std::cout << route1.size() << ' ' << route2.size() << std::endl;
 
     std::vector< std::pair<double, double> > res;
     double t1 = 0.0;
     bool in_conflict = false;
     while (ptr1 < route1.size() && ptr2 < route2.size())
     {
-//        std::cout << ptr1 << ' ' << ptr2 << std::endl;
+//        std::cout << "GO " << ptr1 << ' ' << ptr2 << std::endl;
         size_t nptr1 = ptr1;
         size_t nptr2 = ptr2;
         if (ptr2 == route2.size() || (ptr1 < route1.size() && route1.edge(ptr1)->b()->t() < route2.edge(ptr2)->b()->t()))
@@ -59,26 +59,46 @@ std::vector< std::pair<double, double> > SimplePredictor::getConflict(size_t ind
         {
             ++nptr2;
         }
-        if (ptr1 && ptr2)
+        if (ptr1 == 0)
         {
-            double t;
-            if (route1.edge(ptr1)->intersect(*route2.edge(ptr2), d, t))
+            double t = route1.point(0)->t();
+            double dist = 0.0;
+            if (route1.edge(ptr1)->distance(*route2.edge(ptr2), t, dist) && dist <= d)
             {
-                std::cout << "T = " << t << std::endl;
-                if (in_conflict)
-                {
-                    res.push_back(std::make_pair(t1, t));
-                    in_conflict = false;
-                }
-                else
-                {
-                    t1 = t;
-                    in_conflict = true;
-                }
+                in_conflict = true;
+                t1 = t;
+            }
+        }
+        if (ptr2 == 0) {
+            double t = route2.point(0)->t();
+            double dist = 0.0;
+            if (route1.edge(ptr1)->distance(*route2.edge(ptr2), t, dist) && dist <= d)
+            {
+                in_conflict = true;
+                t1 = t;
+            }
+        }
+        double t;
+        if (route1.edge(ptr1)->intersect(*route2.edge(ptr2), d, t))
+        {
+            std::cout << "T = " << t << std::endl;
+            if (in_conflict)
+            {
+                res.push_back(std::make_pair(t1, t));
+                in_conflict = false;
+            }
+            else
+            {
+                t1 = t;
+                in_conflict = true;
             }
         }
         ptr1 = nptr1;
         ptr2 = nptr2;
+    }
+    if (in_conflict)
+    {
+        res.push_back(std::make_pair(t1, std::min(route1.point(route1.size())->t(), route2.point(route2.size())->t())));
     }
     return res;
 }

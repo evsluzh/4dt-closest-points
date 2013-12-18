@@ -7,6 +7,22 @@ Route::Route(size_t size)
 {
 }
 
+Route::Route(const std::vector<Point>& points)
+{
+    m_edges.reserve(points.size() - 1);
+    boost::shared_ptr<Point> prev_point;
+    for (size_t i = 0; i < points.size(); ++i)
+    {
+        boost::shared_ptr<Point> cur_point(new Point(points[i]));
+        if (i > 0)
+        {
+            boost::shared_ptr<Edge> cur_edge(new Edge(prev_point, cur_point));
+            m_edges.push_back(cur_edge);
+        }
+        prev_point = cur_point;
+    }
+}
+
 Route::Route()
     : m_edges(0)
 {
@@ -14,7 +30,11 @@ Route::Route()
 
 boost::shared_ptr<Point> Route::point(size_t index) const
 {
-    return m_edges[index]->a();
+    if (index < m_edges.size())
+    {
+        return m_edges[index]->a();
+    }
+    return m_edges.back()->b();
 }
 
 bool Route::get_position(double t, Point& p) const
@@ -32,7 +52,11 @@ bool Route::get_position(double t, Point& p) const
             r = m;
         }
     }
-    return edge(l)->get_point(t, p);
+    if (r < 0 || r >= (int)size())
+    {
+        return false;
+    }
+    return edge(r)->get_point(t, p);
 }
 
 boost::shared_ptr<Edge> Route::edge(size_t index) const

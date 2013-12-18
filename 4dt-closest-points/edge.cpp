@@ -20,7 +20,7 @@ bool Edge::intersect(const Edge& edge, double d, double& time) const
         return false;
     }
     val1 -= d; val2 -= d;
-    std::cout << l << ' ' << r << ' ' << val1 << ' ' << val2 << std::endl;
+//    std::cout << l << ' ' << r << ' ' << val1 << ' ' << val2 << std::endl;
     if (val1 * val2 > 0)
     {
         return false;
@@ -61,10 +61,11 @@ bool Edge::get_point(double t, Point& point) const
     }
     double t1 = m_a->t();
     double t2 = m_b->t();
-    double k = (t - t1) / (t2 - t1);
-    double x = m_a->x() * (1 - k) + m_b->x() * k;
-    double y = m_a->y() * (1 - k) + m_b->y() * k;
-    point = Point(x, y, t);
+    double k1 = (t2 - t) / (t2 - t1);
+    double k2 = (t - t1) / (t2 - t1);
+    double x = m_a->x() * k1 + m_b->x() * k2;
+    double y = m_a->y() * k1 + m_b->y() * k2;
+    point = Point(x, y, t1 * k1 + t2 * k2);
     return true;
 }
 
@@ -81,7 +82,8 @@ boost::shared_ptr<Point> Edge::b() const
 bool Edge::distance(const Edge& edge, double t, double& dist) const
 {
     Point p1, p2;
-    if (!get_point(t, p1) || !edge.get_point(t, p2)) {
+    if (!get_point(t, p1) || !edge.get_point(t, p2))
+    {
         return false;
     }
     dist = p1.distance_to(p2);

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>685</height>
+    <height>760</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,8 +17,8 @@
    <widget class="QLabel" name="proection_xt">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>10</y>
+      <x>10</x>
+      <y>80</y>
       <width>300</width>
       <height>300</height>
      </rect>
@@ -33,8 +33,8 @@
    <widget class="QLabel" name="proection_yt">
     <property name="geometry">
      <rect>
-      <x>410</x>
-      <y>10</y>
+      <x>10</x>
+      <y>390</y>
       <width>300</width>
       <height>300</height>
      </rect>
@@ -49,8 +49,8 @@
    <widget class="QLabel" name="proection_yx">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>320</y>
+      <x>330</x>
+      <y>390</y>
       <width>300</width>
       <height>300</height>
      </rect>
@@ -65,14 +65,14 @@
    <widget class="QSlider" name="sliderD">
     <property name="geometry">
      <rect>
-      <x>410</x>
-      <y>360</y>
-      <width>181</width>
+      <x>10</x>
+      <y>20</y>
+      <width>301</width>
       <height>19</height>
      </rect>
     </property>
     <property name="minimum">
-     <number>50</number>
+     <number>1</number>
     </property>
     <property name="maximum">
      <number>200</number>
@@ -84,14 +84,14 @@
    <widget class="QSpinBox" name="spinD">
     <property name="geometry">
      <rect>
-      <x>450</x>
-      <y>320</y>
+      <x>350</x>
+      <y>20</y>
       <width>51</width>
       <height>26</height>
      </rect>
     </property>
     <property name="minimum">
-     <number>50</number>
+     <number>1</number>
     </property>
     <property name="maximum">
      <number>200</number>
@@ -100,8 +100,8 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>410</x>
-      <y>330</y>
+      <x>320</x>
+      <y>20</y>
       <width>60</width>
       <height>16</height>
      </rect>
@@ -121,8 +121,8 @@
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>420</x>
-      <y>400</y>
+      <x>320</x>
+      <y>50</y>
       <width>60</width>
       <height>16</height>
      </rect>
@@ -142,8 +142,8 @@
    <widget class="QSpinBox" name="spinT">
     <property name="geometry">
      <rect>
-      <x>450</x>
-      <y>390</y>
+      <x>350</x>
+      <y>50</y>
       <width>51</width>
       <height>26</height>
      </rect>
@@ -155,9 +155,9 @@
    <widget class="QSlider" name="sliderT">
     <property name="geometry">
      <rect>
-      <x>410</x>
-      <y>430</y>
-      <width>181</width>
+      <x>10</x>
+      <y>50</y>
+      <width>301</width>
       <height>19</height>
      </rect>
     </property>
@@ -166,6 +166,29 @@
     </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="listWidget">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>80</y>
+      <width>301</width>
+      <height>301</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="time_label">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>700</y>
+      <width>60</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
     </property>
    </widget>
   </widget>
@@ -184,12 +207,24 @@
     </property>
     <addaction name="actionOpen"/>
    </widget>
+   <widget class="QMenu" name="menuOptions">
+    <property name="title">
+     <string>Options</string>
+    </property>
+    <addaction name="actionGenerate_routes"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuOptions"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionOpen">
    <property name="text">
     <string>Open</string>
+   </property>
+  </action>
+  <action name="actionGenerate_routes">
+   <property name="text">
+    <string>Generate routes</string>
    </property>
   </action>
  </widget>
