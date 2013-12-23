@@ -31,7 +31,7 @@ std::vector<Route> RoutesGenerator::generate() const
     for (int i = 0; i < m_routes_count; ++i)
     {
         int start_time = rand() % MAX_TIME;
-        int finish_time = start_time + (rand() % (MAX_TIME - start_time));
+        int finish_time = start_time + (rand() % (MAX_TIME - start_time)) + 1;
         double dt = 1.0 * (finish_time - start_time) / m_route_points;
 
         size_t cur = rand() % m_based_points;
@@ -47,7 +47,7 @@ std::vector<Route> RoutesGenerator::generate() const
             int next = g[cur][rand() % g[cur].size()];
             double nx = based_points[next].x(), ny = based_points[next].y();
             std::cout << "GOTO " << nx << ' ' << ny << " " << cx << " " << cy << " " << (fabs(cx - nx) + fabs(cy - ny) > 0.001) << std::endl;
-            while (fabs(cx - nx) + fabs(cy - ny) > 0.001)
+            while (fabs(cx - nx) + fabs(cy - ny) > 0.01)
             {
                 double dx = (nx - cx);
                 double dy = (ny - cy);
@@ -61,8 +61,8 @@ std::vector<Route> RoutesGenerator::generate() const
                 Point cur(cx, cy, dx, dy, time);
                 points.push_back(cur);
                 time += dt;
-                /*std::cout << cx << " " << cy << std::endl;
-                if ((int)points.size() >= m_route_points)
+//                std::cout << cx << " " << cy << ' ' << nx << ' ' << ny << std::endl;
+                /*if ((int)points.size() >= m_route_points)
                 {
                     break;
                 }*/

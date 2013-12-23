@@ -38,19 +38,21 @@ bool operator < (const Block& a, const Block& b)
 GeometricHashing::GeometricHashing(const std::vector<Route>& routes) :
     ConflictPredictor(routes)
 {
-    std::cout << "Ok" << std::endl;
     double dt = dmax / vmax;
     double start_time = routes[0].edge(0)->a()->t();
     double finish_time = routes[0].edge(routes[0].size() - 1)->b()->t();
-    std::cout << "OK " << std::endl;
     for (size_t i = 0; i < routes.size(); ++i)
     {
 //        const Route cur = m_routes[i];
         start_time = std::min(start_time, routes[i].edge(0)->a()->t());
         finish_time = std::max(finish_time, routes[i].edge(routes[i].size() - 1)->b()->t());
+        for (size_t j = 0; j != routes[i].size(); ++j)
+        {
+            dt = std::min(dt, routes[i].edge(j)->b()->t() - routes[i].edge(j)->a()->t());
+        }
     }
-//    std::cout << "Ok2" << std::endl;
     std::vector<size_t> pointers(routes.size(), 0);
+
     for (double t = start_time; t < finish_time; t += dt)
     {
 //        std::cout << "CUR T = " << t << std::endl;
@@ -65,6 +67,7 @@ GeometricHashing::GeometricHashing(const std::vector<Route>& routes) :
                     ++pointers[i];
                 }
                 Block block(point, dmax);
+                std::cout << block.x() << " " << block.y() << " " << pointers[i] << " " << t << " " << routes[i].edge(0)->a()->t() << " " << routes[i].edge(pointers[i])->a()->t() << std::endl;
                 for (int dx = -1; dx <= 1; ++dx)
                 {
                     for (int dy = -1; dy <= 1; ++dy)
@@ -95,33 +98,35 @@ std::vector< std::pair<double, double> > GeometricHashing::getConflict(size_t in
     double lt;
     bool in_conflict = false;
 
+    bool is_first = true;
     for (auto it = current_conflicts.begin(); it != current_conflicts.end(); ++it)
     {
         double ct;
         int ptr1 = it->first, ptr2 = it->second;
-
-        if (ptr1 == 0)
+//        std::cout << ptr1 << " " << ptr2 << std::endl;
+        if (is_first)
         {
-            double t = route1.point(0)->t();
+            is_first = false;
+            double t = std::max(route1.point(ptr1)->t(), route2.point(ptr1)->t());
             double dist = 0.0;
             if (route1.edge(ptr1)->distance(*route2.edge(ptr2), t, dist) && dist <= d)
             {
                 in_conflict = true;
                 lt = t;
             }
-        }
-        if (ptr2 == 0)
-        {
-            double t = route2.point(0)->t();
-            double dist = 0.0;
+/*
+            t = route2.point(ptr1)->t();
+            dist = 0.0;
             if (route1.edge(ptr1)->distance(*route2.edge(ptr2), t, dist) && dist <= d)
             {
                 in_conflict = true;
                 lt = t;
-            }
+            }*/
+            std::cout << "START = " << in_conflict << " " << t << " " << dist << std::endl;
         }
-        if (route1.edge(it->first)->intersect(*route2.edge(it->second), d, ct))
+        if (route1.edge(ptr1)->intersect(*route2.edge(ptr2), d, ct))
         {
+            std::cout << "T = " << ct << std::endl;
             if (in_conflict)
             {
                 res.push_back(std::make_pair(lt, ct));
