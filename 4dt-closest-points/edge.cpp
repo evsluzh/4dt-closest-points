@@ -16,7 +16,8 @@ bool Edge::intersect(const Edge& edge, double d, double& time) const
         return false;
     }
     double val1, val2;
-    if (!distance(edge, l, val1) || !distance(edge, r, val2)) {
+    if (!distance(edge, l, val1) || !distance(edge, r, val2))
+    {
         return false;
     }
     val1 -= d; val2 -= d;
@@ -25,7 +26,8 @@ bool Edge::intersect(const Edge& edge, double d, double& time) const
     {
         return false;
     }
-    if (val1 <= 0 && val2 <= 0) {
+    if (val1 <= 0 && val2 <= 0)
+    {
         return false;
     }
     if (fabs(val1) < 1.0e-7 && fabs(val2) < 1.0e-7)
@@ -39,10 +41,13 @@ bool Edge::intersect(const Edge& edge, double d, double& time) const
         double dist;
         distance(edge, m, dist);
         dist -= d;
-        if (val1 * dist <= 0) {
+        if (val1 * dist <= 0)
+        {
             r = m;
             val2 = dist;
-        } else {
+        }
+        else
+        {
             l = m;
             val1 = dist;
         }

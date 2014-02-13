@@ -106,7 +106,8 @@ void MainWindow::draw_projection(boost::function<double (Point)> x, boost::funct
                     painter.setPen(QPen(Qt::red));
                     double t = conflicts[j].first;
                     Point start;
-                    if (edge->get_point(t, start)) {
+                    if (edge->get_point(t, start))
+                    {
                         std::pair<int, int> pa = normalize(x(start), y(start), minx, maxx, miny, maxy, label);
                         std::pair<int, int> pb = normalize(x(*edge->b()), y(*edge->b()), minx, maxx, miny, maxy, label);
                         painter.drawLine(pa.first, pa.second,
@@ -123,7 +124,8 @@ void MainWindow::draw_projection(boost::function<double (Point)> x, boost::funct
                     painter.setPen(QPen(Qt::black));
                     double t = conflicts[j].second;
                     Point start;
-                    if (edge->get_point(t, start)) {
+                    if (edge->get_point(t, start))
+                    {
                         std::pair<int, int> pa = normalize(x(start), y(start), minx, maxx, miny, maxy, label);
                         std::pair<int, int> pb = normalize(x(*edge->b()), y(*edge->b()), minx, maxx, miny, maxy, label);
                         painter.drawLine(pa.first, pa.second,
@@ -135,7 +137,8 @@ void MainWindow::draw_projection(boost::function<double (Point)> x, boost::funct
         }
         Point p;
         double time = mint + (maxt - mint) * t * 0.01;
-        if (route_it->get_position(time, p)) {
+        if (route_it->get_position(time, p))
+        {
             painter.setPen(QPen(Qt::red));
             std::pair<int, int> pt = normalize(x(p), y(p), minx, maxx, miny, maxy, label);
             painter.drawEllipse(pt.first, pt.second, 5, 5);
@@ -170,7 +173,8 @@ void MainWindow::draw_projections()
 void MainWindow::on_actionOpen_triggered()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "", tr("Files (*.*)"));
-    if (fileName.size() > 0) {
+    if (fileName.size() > 0)
+    {
         RouteReader reader(fileName.toStdString().c_str());
         m_routes = reader.read();
         draw_projections();
