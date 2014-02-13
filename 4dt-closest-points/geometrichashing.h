@@ -7,8 +7,8 @@
 #include <set>
 #include <map>
 
-const double dmax = 200.0;
-const double vmax = 250.0;
+const double dmax = 500.0;
+const double vmax = 220.0;
 
 struct Block
 {
@@ -35,6 +35,6 @@ struct GeometricHashing :
 
 private:
     // Map from routes indices to set of edges indices
-    std::map<std::pair<size_t, size_t>, std::set< std::pair<size_t, size_t> > > m_conflicts;
+    std::map<std::pair<size_t, size_t>, std::vector<std::pair<double, double> > > m_conflicts;
 };
 

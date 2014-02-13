@@ -9,6 +9,8 @@ Edge::Edge(boost::shared_ptr<Point> a, boost::shared_ptr<Point> b)
 
 bool Edge::intersect(const Edge& edge, double d, double& time) const
 {
+    const int TERNARY_ITERATIONS = 50;
+    const double EPS = 1.0e-9;
     double l = std::max(m_a->t(), edge.m_a->t());
     double r = std::min(m_b->t(), edge.m_b->t());
     if (l > r)
@@ -30,12 +32,12 @@ bool Edge::intersect(const Edge& edge, double d, double& time) const
     {
         return false;
     }
-    if (fabs(val1) < 1.0e-7 && fabs(val2) < 1.0e-7)
+    if (fabs(val1) < EPS && fabs(val2) < EPS)
     {
         return false;
     }
     std::cout << "Go" << std::endl;
-    for (size_t i = 0; i < 100; ++i)
+    for (size_t i = 0; i < TERNARY_ITERATIONS; ++i)
     {
         double m = 0.5 * (l + r);
         double dist;

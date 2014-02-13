@@ -52,7 +52,8 @@ std::vector<Route> RoutesGenerator::generate() const
                 double dx = (nx - cx);
                 double dy = (ny - cy);
                 double l = sqrt(dx * dx + dy * dy);
-                if (l / dt > vmax) {
+                if (l / dt > vmax)
+                {
                     dx *= vmax * dt / l;
                     dy *= vmax * dt / l;
                 }

@@ -156,8 +156,17 @@ void MainWindow::draw_projections()
     }
     double d = ui->spinD->value();
     double t = ui->spinT->value();
-//    boost::scoped_ptr<ConflictPredictor> predictor(new GeometricHashing(m_routes));
-    boost::scoped_ptr<ConflictPredictor> predictor(new SimplePredictor(m_routes));
+    std::cout << "PRECALC" << std::endl;
+    boost::scoped_ptr<ConflictPredictor> predictor(new GeometricHashing(m_routes));
+    std::cout << "OK" << std::endl;
+//    boost::scoped_ptr<ConflictPredictor> predictor(new SimplePredictor(m_routes));
+    for (size_t i = 0; i != m_routes.size(); ++i)
+    {
+        for (size_t j = i + 1; j != m_routes.size(); ++j)
+        {
+            predictor->getConflict(i, j, d);
+        }
+    }
     std::vector< std::pair<double, double> > conflicts = predictor->getConflict(0, 1, d);
     std::cout << "SIZE = " << conflicts.size() << std::endl;
     for (size_t i = 0; i < conflicts.size(); ++i)

@@ -15,9 +15,9 @@ private:
     int m_routes_count;
     int m_route_points;
 
-    const int MAX_TIME = 100;
-    const int MAX_X = 100;
-    const int MAX_Y = 100;
-    const double vmax = 10.0;
+    const int MAX_TIME = 3600;
+    const int MAX_X = 100000;
+    const int MAX_Y = 100000;
+    const double vmax = 200.0;
 };
 
