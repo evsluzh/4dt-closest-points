@@ -82,9 +82,10 @@ std::vector<Route> RoutesGenerator::generate() const
 
 std::vector<Point> RoutesGenerator::generate_points(int n, int w, int h) const
 {
-   std::vector<Point> res(n);
-   for (int i = 0; i < n; ++i) {
-       res[i] = Point(rand() % w, rand() % h);
-   }
-   return res;
+    std::vector<Point> res(n);
+    for (int i = 0; i < n; ++i)
+    {
+        res[i] = Point(rand() % w, rand() % h);
+    }
+    return res;
 }

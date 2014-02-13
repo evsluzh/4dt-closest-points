@@ -8,6 +8,8 @@
 
 QT       += gui
 
+QT       += Widgets
+
 QMAKE_CXXFLAGS += -std=c++0x
 
 TARGET = 4dt-closest-points
