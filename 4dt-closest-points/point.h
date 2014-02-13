@@ -28,6 +28,7 @@ struct Point
     bool infinity() const;
 
     friend std::istream& operator>> (std::istream &in, Point &point);
+    friend std::ostream& operator<< (std::ostream &out, const Point &point);
 
 private:
 

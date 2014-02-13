@@ -6,8 +6,8 @@
 Point::Point(double x, double y, double vx, double vy, double t)
     : m_x(x)
     , m_y(y)
-//    , m_vx(vx)
-//    , m_vy(vy)
+    , m_vx(vx)
+    , m_vy(vy)
     , m_t(t)
 {
 
@@ -83,3 +83,12 @@ std::istream& operator>> (std::istream &in, Point &point)
     return in;
 }
 
+std::ostream& operator<< (std::ostream &out, const Point &point)
+{
+    out << point.m_x << " ";
+    out << point.m_y << " ";
+    out << point.m_vx << " ";
+    out << point.m_vy << " ";
+    out << point.m_t;
+    return out;
+}
