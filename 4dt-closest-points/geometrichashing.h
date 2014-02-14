@@ -35,6 +35,7 @@ struct GeometricHashing :
     virtual std::vector<Conflict> getConflicts(size_t index1, size_t index2, double d);
 
 private:
+    bool calc_local(bool& open, double& open_time, std::pair<double, double>& conflict, double d, const Edge& edge1, const Edge& edge2);
     // Map from routes indices to set of edges indices
     std::map<std::pair<size_t, size_t>, std::vector<std::pair<double, double> > > m_conflicts;
 };

@@ -1,6 +1,9 @@
 #include "geometrichashing.h"
+#include "conflict.h"
 #include <algorithm>
 #include <limits>
+#include <cassert>
+#include <boost/shared_ptr.hpp>
 
 Block::Block(int x, int y)
     : m_x(x)
@@ -134,9 +137,15 @@ std::vector<Conflict> GeometricHashing::getConflicts(size_t index1, size_t index
             open_time = t;
         }
 
+        std::cout << "GO " << open_time << ' ' << dist * dist << ' ' << (in_conflict ? "open" : "close") << std::endl;
         while (pointer1 < route1.size() && pointer2 < route2.size() && route1.edge(pointer1)->a()->t() < finish_time && route2.edge(pointer2)->a()->t() < finish_time)
         {
-            double intersect_time;
+            std::pair<double, double> conflict;
+            if (calc_local(in_conflict, open_time, conflict, d, *route1.edge(pointer1), *route2.edge(pointer2)))
+            {
+                conflicts.push_back(Conflict(index1, index2, conflict.first, conflict.second));
+            }
+            /*double intersect_time;
             if (route1.edge(pointer1)->intersect(*route2.edge(pointer2), d, intersect_time))
             {
                 if (in_conflict)
@@ -149,7 +158,7 @@ std::vector<Conflict> GeometricHashing::getConflicts(size_t index1, size_t index
                     open_time = intersect_time;
                     in_conflict = true;
                 }
-            }
+            }*/
             if (route1.edge(pointer1)->a()->t() < route2.edge(pointer2)->a()->t())
             {
                 ++pointer1;
@@ -167,4 +176,93 @@ std::vector<Conflict> GeometricHashing::getConflicts(size_t index1, size_t index
         }
     }
     return conflicts;
+}
+
+std::pair<double, double> get_linear_function(double x1, double x2, double t1, double t2)
+{
+    double dt = t2 - t1;
+    double ka = x2 - x1;
+    double kb = x1 * t2 - x2 * t1;
+    ka /= dt;
+    kb /= dt;
+    return std::make_pair(ka, kb);
+}
+
+std::pair<double, std::pair<double, double> > coord(double t11, double t12, double t21, double t22, double x11, double x12, double x21, double x22)
+{
+    std::pair<double, double> fx1 = get_linear_function(x11, x12, t11, t12);
+    std::pair<double, double> fx2 = get_linear_function(x21, x22, t21, t22);
+    std::pair<double, double> fx = std::make_pair(fx1.first + fx2.first, fx1.second + fx2.second);
+    return std::make_pair(fx.first * fx.first, std::make_pair(2 * fx.first * fx.second, fx.second * fx.second));
+}
+
+bool GeometricHashing::calc_local(bool& open, double& open_time, std::pair<double, double>& conflict, double d, const Edge& edge1, const Edge& edge2)
+{
+    double t11 = edge1.a()->t(), t12 = edge1.b()->t();
+    double t21 = edge2.a()->t(), t22 = edge2.b()->t();
+    double start_time = std::max(t11, t21), finish_time = std::min(t12, t22);
+
+    std::pair<double, std::pair<double, double> > f2x = coord(t11, t12, t21, t22,
+                                       edge1.a()->x(), edge1.b()->x(), edge2.a()->x(), edge2.b()->x());
+    std::pair<double, std::pair<double, double> > f2y = coord(t11, t12, t21, t22,
+                                       edge1.a()->y(), edge1.b()->y(), edge2.a()->y(), edge2.b()->y());
+    double ka = f2x.first + f2y.first;
+    double kb = f2x.second.first + f2y.second.first;
+    double kc = f2x.second.second + f2y.second.second;
+    kc -= d * d;
+
+    double start_value = (ka * start_time + kb) * start_time + kc;
+    double end_value = (ka * finish_time + kb) * finish_time + kc;
+    std::cout << "(" << start_time << ", " << finish_time << "): (" << start_value << ", " << end_value << ")" << std::endl;
+
+    const double EPS = 1.0e-10;
+
+    if (open && start_value > EPS)
+    {
+        assert(false);
+    }
+    double kd = kb * kb - 4.0 * ka * kc;
+    if (kd < EPS)
+    {
+        return false;
+    }
+    kd = sqrt(kd);
+    double t1 = (- kb - kd) / 2.0 / ka;
+    double t2 = (- kb + kd) / 2.0 / ka;
+    bool res = false;
+    if (start_time <= t1 && t1 <= finish_time)
+    {
+        if (open)
+        {
+            conflict = std::make_pair(open_time, t1);
+            res = true;
+        }
+        else
+        {
+            open_time = t1;
+        }
+        open ^= true;
+    }
+    if (start_time <= t2 && t2 <= finish_time)
+    {
+        if (open)
+        {
+            conflict = std::make_pair(open_time, t2);
+            res = true;
+        }
+        else
+        {
+            open_time = t2;
+        }
+        open ^= true;
+    }
+    if (open)
+    {
+        assert(end_value > EPS);
+    }
+    else
+    {
+        assert(end_value < EPS);
+    }
+    return res;
 }
