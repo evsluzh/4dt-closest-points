@@ -94,7 +94,7 @@ void Drawer::draw_routes_indicators(const Graph& graph, QPainter* painter, const
 
 void Drawer::draw_conflicts(const Graph& graph, QPainter* painter, const std::vector<Route>& routes, const std::vector<Conflict>& conflicts)
 {
-    painter->setPen(QPen(Qt::red));
+    painter->setPen(QPen(Qt::red, 2.0));
     for (const Conflict& conflict : conflicts)
     {
         size_t index1 = conflict.route1_index();
@@ -120,6 +120,7 @@ void Drawer::draw_conflicts(const Graph& graph, QPainter* painter, const std::ve
                 {
                     QPoint a = graph.to_qpoint(pa);
                     QPoint b = graph.to_qpoint(pb);
+                    std::cout << "CONFLICT LINE " << a.x() << " " << a.y() << ' ' << b.x() << ' ' << b.y() << std::endl;
                     painter->drawLine(a, b);
                 }
                 ++pointer;
