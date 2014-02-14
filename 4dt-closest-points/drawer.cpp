@@ -87,7 +87,7 @@ void Drawer::draw_routes_indicators(const Graph& graph, QPainter* painter, const
         if (route.get_position(t, indicator))
         {
             QPoint p = graph.to_qpoint(indicator);
-            painter->drawEllipse(p, 5, 5);
+            painter->drawEllipse(p, 3, 3);
         }
     }
 }

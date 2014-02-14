@@ -36,4 +36,4 @@ private:
 };
 
 const Point min_point(0, 0, 0);
-const Point max_point(3600, 100000, 100000);
+const Point max_point(100000.0, 100000.0, 3600.0);
