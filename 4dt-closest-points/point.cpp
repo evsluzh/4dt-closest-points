@@ -60,11 +60,6 @@ double Point::t() const
     return m_t;
 }
 
-bool Point::infinity() const
-{
-    return (m_x != m_x);
-}
-
 
 double Point::distance_to(const Point& point) const
 {

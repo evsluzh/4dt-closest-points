@@ -31,7 +31,8 @@ SOURCES += main.cpp \
     generatedialog.cpp \
     routesgenerator.cpp \
     routewriter.cpp \
-    conflict.cpp
+    conflict.cpp \
+    drawer.cpp
 
 HEADERS += \
     conflictpredictor.h \
@@ -45,7 +46,8 @@ HEADERS += \
     generatedialog.h \
     routesgenerator.h \
     routewriter.h \
-    conflict.h
+    conflict.h \
+    drawer.h
 
 FORMS += \
     mainwindow.ui \

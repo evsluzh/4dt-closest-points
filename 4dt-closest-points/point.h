@@ -25,8 +25,6 @@ struct Point
 
     double distance_to(const Point& point) const;
 
-    bool infinity() const;
-
     friend std::istream& operator>> (std::istream &in, Point &point);
     friend std::ostream& operator<< (std::ostream &out, const Point &point);
 
@@ -36,3 +34,6 @@ private:
     double m_vx, m_vy;
     double m_t;
 };
+
+const Point min_point(0, 0, 0);
+const Point max_point(3600, 100000, 100000);
