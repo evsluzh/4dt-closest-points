@@ -12,9 +12,9 @@ RoutesGenerator::RoutesGenerator(int based_points, int routes_count, int route_p
 
 std::vector<Route> RoutesGenerator::generate() const
 {
-    std::vector<Point> based_points = generate_points(m_based_points, MAX_X, MAX_Y);
+    std::vector<Point> based_points = generate_points(m_based_points, max_point.x(), max_point.y());
     std::vector< std::vector<int> > g(m_based_points);
-    std::cout << "BASED_POINTS = "  << m_based_points << std::endl;
+//    std::cout << "BASED_POINTS = "  << m_based_points << std::endl;
     for (int i = 1; i < m_based_points; ++i)
     {
         for (int j = 0; j < 2; ++j)
@@ -30,8 +30,9 @@ std::vector<Route> RoutesGenerator::generate() const
     std::vector<Route> routes(m_routes_count);
     for (int i = 0; i < m_routes_count; ++i)
     {
-        int start_time = rand() % MAX_TIME;
-        int finish_time = start_time + (rand() % (MAX_TIME - start_time)) + 1;
+        const int HALF_MAX_TIME = max_point.t() / 2;
+        int start_time = rand() % HALF_MAX_TIME;
+        int finish_time = HALF_MAX_TIME + rand() % HALF_MAX_TIME;
         double dt = 1.0 * (finish_time - start_time) / m_route_points;
 
         size_t cur = rand() % m_based_points;
@@ -46,7 +47,7 @@ std::vector<Route> RoutesGenerator::generate() const
         {
             int next = g[cur][rand() % g[cur].size()];
             double nx = based_points[next].x(), ny = based_points[next].y();
-            std::cout << "GOTO " << nx << ' ' << ny << " " << cx << " " << cy << " " << (fabs(cx - nx) + fabs(cy - ny) > 0.001) << std::endl;
+//            std::cout << "GOTO " << nx << ' ' << ny << " " << cx << " " << cy << " " << (fabs(cx - nx) + fabs(cy - ny) > 0.001) << std::endl;
             while (fabs(cx - nx) + fabs(cy - ny) > 0.01)
             {
                 double dx = (nx - cx);
@@ -63,16 +64,16 @@ std::vector<Route> RoutesGenerator::generate() const
                 points.push_back(cur);
                 time += dt;
 //                std::cout << cx << " " << cy << ' ' << nx << ' ' << ny << std::endl;
-                /*if ((int)points.size() >= m_route_points)
-                {
-                    break;
-                }*/
+//                if ((int)points.size() >= m_route_points)
+//                {
+//                    break;
+//                }
             }
             cur = next;
         }
 
         routes[i] = Route(points);
-        std::cout << routes[i].size() << ": " << std::endl;
+//        std::cout << routes[i].size() << ": " << std::endl;
 //        for (size_t j = 0; j < routes[i].size(); ++j)
 //        {
 //            std::cout << routes[i].edge(j)->a()->x() << " " << routes[i].edge(j)->a()->y() << std::endl;
