@@ -100,7 +100,6 @@ std::istream& operator >> (std::istream &in, Route &route)
     boost::shared_ptr<Point> prev_point;
     for (int i = 0; i < n; ++i)
     {
-        std::cout << "read point " << i << std::endl;
         boost::shared_ptr<Point> cur_point(new Point());
         in >> *cur_point;
         if (i > 0)

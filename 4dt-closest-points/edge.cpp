@@ -9,7 +9,7 @@ Edge::Edge(boost::shared_ptr<Point> a, boost::shared_ptr<Point> b)
 
 bool Edge::intersect(const Edge& edge, double d, double& time) const
 {
-    const int TERNARY_ITERATIONS = 50;
+    const int TERNARY_ITERATIONS = 100;
     const double EPS = 1.0e-9;
     double l = std::max(m_a->t(), edge.m_a->t());
     double r = std::min(m_b->t(), edge.m_b->t());

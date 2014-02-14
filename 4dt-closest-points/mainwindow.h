@@ -25,6 +25,7 @@ public:
 
 private slots:
     void on_actionOpen_triggered();
+
     void on_actionSave_triggered();
 
     void on_actionGenerate_routes_triggered();
@@ -32,6 +33,8 @@ private slots:
     void on_sliderT_valueChanged(int value);
 
     void on_sliderD_valueChanged(int value);
+
+    void on_listWidget_currentRowChanged(int currentRow);
 
 private:
     void find_conflicts();

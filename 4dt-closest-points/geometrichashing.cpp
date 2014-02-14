@@ -77,7 +77,7 @@ GeometricHashing::GeometricHashing(const std::vector<Route>& routes) :
                         for (auto it = positions.begin(); it != positions.end(); ++it)
                         {
                             std::vector< std::pair<double, double> >& current_conflicts = m_conflicts[std::make_pair(it->first, i)];
-                            if (!current_conflicts.empty() && current_conflicts.back().second < previous_time)
+                            if (!current_conflicts.empty() && previous_time <= current_conflicts.back().second)
                             {
                                 current_conflicts.back().second = next_time;
                             }
