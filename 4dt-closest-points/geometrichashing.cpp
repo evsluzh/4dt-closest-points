@@ -99,7 +99,7 @@ GeometricHashing::GeometricHashing(const std::vector<Route>& routes) :
     }
 }
 
-std::vector< std::pair<double, double> > GeometricHashing::getConflict(size_t index1, size_t index2, double d)
+std::vector<Conflict> GeometricHashing::getConflicts(size_t index1, size_t index2, double d)
 {
     if (index1 > index2)
     {
@@ -107,11 +107,11 @@ std::vector< std::pair<double, double> > GeometricHashing::getConflict(size_t in
     }
     const Route& route1 = m_routes[index1];
     const Route& route2 = m_routes[index2];
-    std::vector< std::pair<double, double> > current_conflicts = m_conflicts[std::make_pair(index1, index2)];
+    std::vector< std::pair<double, double> > potential_conflicts = m_conflicts[std::make_pair(index1, index2)];
     size_t pointer1 = 0, pointer2 = 0;
 
-    std::vector< std::pair<double, double> > res;
-    for (auto it = current_conflicts.begin(); it != current_conflicts.end(); ++it)
+    std::vector<Conflict> conflicts;
+    for (auto it = potential_conflicts.begin(); it != potential_conflicts.end(); ++it)
     {
         double start_time = it->first, finish_time = it->second;
         while (pointer1 < route1.size() && route1.edge(pointer1)->a()->t() < start_time)
@@ -141,7 +141,7 @@ std::vector< std::pair<double, double> > GeometricHashing::getConflict(size_t in
     //            std::cout << "T = " << ct << std::endl;
                 if (in_conflict)
                 {
-                    res.push_back(std::make_pair(open_time, intersect_time));
+                    conflicts.push_back(Conflict(index1, index2, open_time, intersect_time));
                     in_conflict = false;
                 }
                 else
@@ -153,8 +153,9 @@ std::vector< std::pair<double, double> > GeometricHashing::getConflict(size_t in
         }
         if (in_conflict)
         {
-            res.push_back(std::make_pair(open_time, std::min(route1.point(route1.size())->t(), route2.point(route2.size())->t())));
+            double finish_time = std::min(route1.point(route1.size())->t(), route2.point(route2.size())->t());
+            conflicts.push_back(Conflict(index1, index2, open_time, finish_time));
         }
     }
-    return res;
+    return conflicts;
 }

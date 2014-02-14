@@ -10,41 +10,15 @@ SimplePredictor::SimplePredictor(const std::vector<Route>& routes)
 
 }
 
-std::vector< std::pair<double, double> > SimplePredictor::getConflict(size_t index1, size_t index2, double d)
+std::vector<Conflict> SimplePredictor::getConflict(size_t index1, size_t index2, double d)
 {
-/*    std::vector< boost::shared_ptr<Edge> > current_edges(routes.size());
-    std::vector<size_t> iterators(routes.size(), 0);
-    while (true)
-    {
-        int next_routes = -1;
-        for (size_t i = 0; i < routes.size(); ++i)
-        {
-            if (iterators[i] == routes[i].size())
-            {
-                continue;
-            }
-            if (next_routes == -1 || routes[i].edge(iterators[i])->b()->t() < routes[i].edge(iterators[next_routes])->b()->t())
-            {
-                next_routes = i;
-            }
-        }
-        if (next_routes == -1)
-        {
-            break;
-        }
-
-        ++iterators[next_routes];
-    }*/
-
-
     std::cout << "getConflict " << d << std::endl;
     size_t ptr1 = 0, ptr2 = 0;
     const Route& route1 = m_routes[index1];
     const Route& route2 = m_routes[index2];
-//    std::cout << route1.size() << ' ' << route2.size() << std::endl;
 
-    std::vector< std::pair<double, double> > res;
-    double t1 = 0.0;
+    std::vector<Conflict> conflicts;
+    double open_time = 0.0;
     bool in_conflict = false;
     while (ptr1 < route1.size() && ptr2 < route2.size())
     {
@@ -66,7 +40,7 @@ std::vector< std::pair<double, double> > SimplePredictor::getConflict(size_t ind
             if (route1.edge(ptr1)->distance(*route2.edge(ptr2), t, dist) && dist <= d)
             {
                 in_conflict = true;
-                t1 = t;
+                open_time = t;
             }
         }
         if (ptr2 == 0) {
@@ -75,7 +49,7 @@ std::vector< std::pair<double, double> > SimplePredictor::getConflict(size_t ind
             if (route1.edge(ptr1)->distance(*route2.edge(ptr2), t, dist) && dist <= d)
             {
                 in_conflict = true;
-                t1 = t;
+                open_time = t;
             }
         }
         double t;
@@ -84,12 +58,12 @@ std::vector< std::pair<double, double> > SimplePredictor::getConflict(size_t ind
             std::cout << "T = " << t << std::endl;
             if (in_conflict)
             {
-                res.push_back(std::make_pair(t1, t));
+                conflicts.push_back(Conflict(index1, index2, open_time, t));
                 in_conflict = false;
             }
             else
             {
-                t1 = t;
+                open_time = t;
                 in_conflict = true;
             }
         }
@@ -98,7 +72,8 @@ std::vector< std::pair<double, double> > SimplePredictor::getConflict(size_t ind
     }
     if (in_conflict)
     {
-        res.push_back(std::make_pair(t1, std::min(route1.point(route1.size())->t(), route2.point(route2.size())->t())));
+        double finish_time = std::min(route1.point(route1.size())->t(), route2.point(route2.size())->t());
+        conflicts.push_back(Conflict(index1, index2, open_time, finish_time));
     }
-    return res;
+    return conflicts;
 }

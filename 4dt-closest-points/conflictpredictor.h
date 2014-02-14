@@ -1,13 +1,15 @@
 #pragma once
 
 #include "route.h"
+#include "conflict.h"
 #include <vector>
 
 struct ConflictPredictor
 {
     ConflictPredictor(const std::vector<Route>& routes);
 
-    virtual std::vector< std::pair<double, double> > getConflict(size_t index1, size_t index2, double d) = 0;
+    virtual std::vector<Conflict> getConflicts(size_t route1_index, size_t route2_index, double threshold) = 0;
+    virtual std::vector<Conflict> getConflicts(double threshold);
 
     virtual ~ConflictPredictor();
 

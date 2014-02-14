@@ -3,6 +3,8 @@
 #include "route.h"
 #include "edge.h"
 #include "route.h"
+#include "conflict.h"
+#include "drawer.h"
 #include <vector>
 #include <QtGui/QMainWindow>
 #include <QtGui/QLabel>
@@ -23,6 +25,7 @@ public:
 
 private slots:
     void on_actionOpen_triggered();
+    void on_actionSave_triggered();
 
     void on_actionGenerate_routes_triggered();
 
@@ -31,12 +34,11 @@ private slots:
     void on_sliderD_valueChanged(int value);
 
 private:
-    void draw_projections();
-    void draw_projection(boost::function<double (Point)> x, boost::function<double (Point)> y,
-                         QLabel* label, const std::vector< std::pair<double, double> >& conflicts, double t);
-
-    std::pair<int, int> normalize(double x, double y, double minx, double maxx, double miny, double maxy, QLabel* label) const;
+    void find_conflicts();
+    void draw();
 
     Ui::MainWindow *ui;
     std::vector<Route> m_routes;
+    std::vector<Conflict> m_conflicts;
+    Drawer m_drawer;
 };

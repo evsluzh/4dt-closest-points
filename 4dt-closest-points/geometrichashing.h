@@ -1,6 +1,7 @@
 #pragma once
 
 #include "conflictpredictor.h"
+#include "conflict.h"
 #include "route.h"
 #include "point.h"
 #include <vector>
@@ -31,7 +32,7 @@ struct GeometricHashing :
 {
     GeometricHashing(const std::vector<Route>& routes);
 
-    std::vector< std::pair<double, double> > getConflict(size_t index1, size_t index2, double d);
+    virtual std::vector<Conflict> getConflicts(size_t index1, size_t index2, double d);
 
 private:
     // Map from routes indices to set of edges indices
