@@ -3,9 +3,11 @@
 #include "point.h"
 #include "edge.h"
 #include <istream>
+#include <ostream>
 #include <iostream>
 #include <vector>
 #include <boost/shared_ptr.hpp>
+#include <boost/function.hpp>
 
 struct Route
 {
@@ -23,7 +25,13 @@ struct Route
 
     size_t size() const;
 
+    double get_min_value(boost::function<double (Point)> functor);
+
+    double get_max_value(boost::function<double (Point)> functor);
+
     friend std::istream& operator>> (std::istream &in, Route &route);
+
+    friend std::ostream& operator<< (std::ostream &out, const Route &route);
 
 private:
     std::vector<boost::shared_ptr<Edge>> m_edges;

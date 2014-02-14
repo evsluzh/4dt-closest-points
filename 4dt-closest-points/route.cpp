@@ -69,6 +69,26 @@ size_t Route::size() const
     return m_edges.size();
 }
 
+double Route::get_min_value(boost::function<double (Point)> functor)
+{
+    double res = std::numeric_limits<double>::max();
+    for (size_t i = 0; i <= size(); ++i)
+    {
+        res = std::min(res, functor(*point(i)));
+    }
+    return res;
+}
+
+double Route::get_max_value(boost::function<double (Point)> functor)
+{
+    double res = std::numeric_limits<double>::min();
+    for (size_t i = 0; i <= size(); ++i)
+    {
+        res = std::max(res, functor(*point(i)));
+    }
+    return res;
+}
+
 std::istream& operator >> (std::istream &in, Route &route)
 {
     int n;
@@ -91,4 +111,14 @@ std::istream& operator >> (std::istream &in, Route &route)
         prev_point = cur_point;
     }
     return in;
+}
+
+std::ostream& operator << (std::ostream &out, const Route &route)
+{
+    out << (route.size() + 1) << std::endl;
+    for (size_t i = 0; i <= route.size(); ++i)
+    {
+        out << *route.point(i) << std::endl;
+    }
+    return out;
 }
