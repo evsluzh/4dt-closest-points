@@ -8,22 +8,22 @@ Conflict::Conflict(size_t route1_index, size_t route2_index, double start_time, 
 {
 }
 
-size_t route1_index() const
+size_t Conflict::route1_index() const
 {
     return m_route1_index;
 }
 
-size_t route2_index() const
+size_t Conflict::route2_index() const
 {
     return m_route2_index;
 }
 
-double start_time() const
+double Conflict::start_time() const
 {
     return m_start_time;
 }
 
-double finish_time() const
+double Conflict::finish_time() const
 {
     return m_finish_time;
 }
