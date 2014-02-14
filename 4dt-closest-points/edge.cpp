@@ -36,7 +36,7 @@ bool Edge::intersect(const Edge& edge, double d, double& time) const
     {
         return false;
     }
-    std::cout << "Go" << std::endl;
+//    std::cout << "Go" << std::endl;
     for (size_t i = 0; i < TERNARY_ITERATIONS; ++i)
     {
         double m = 0.5 * (l + r);
@@ -55,7 +55,7 @@ bool Edge::intersect(const Edge& edge, double d, double& time) const
         }
     }
     double tm = 0.5 * (l + r);
-    std::cout << "TIME = " << tm << std::endl;
+//    std::cout << "TIME = " << tm << std::endl;
     time = tm;
     return true;
 }

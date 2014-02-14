@@ -57,7 +57,6 @@ GeometricHashing::GeometricHashing(const std::vector<Route>& routes) :
     for (double t = start_time; t <= finish_time;)
     {
         double next_time = t + dt;
-//        std::cout << "CUR T = " << t << std::endl;
         std::map<Block, std::vector< std::pair<size_t, size_t> > > blocks;
         for (size_t i = 0; i < routes.size(); ++i)
         {
@@ -69,7 +68,6 @@ GeometricHashing::GeometricHashing(const std::vector<Route>& routes) :
                     ++pointers[i];
                 }
                 Block block(point, dmax);
-//                std::cout << block.x() << " " << block.y() << " " << pointers[i] << " " << t << " " << routes[i].edge(0)->a()->t() << " " << routes[i].edge(pointers[i])->a()->t() << std::endl;
                 for (int dx = -1; dx <= 1; ++dx)
                 {
                     for (int dy = -1; dy <= 1; ++dy)
@@ -78,7 +76,6 @@ GeometricHashing::GeometricHashing(const std::vector<Route>& routes) :
                         const auto& positions = blocks[cur];
                         for (auto it = positions.begin(); it != positions.end(); ++it)
                         {
-//                            std::cout << "Add " << i << ' ' << it->first << std::endl;
                             std::vector< std::pair<double, double> >& current_conflicts = m_conflicts[std::make_pair(it->first, i)];
                             if (!current_conflicts.empty() && current_conflicts.back().second < previous_time)
                             {
@@ -111,9 +108,9 @@ std::vector<Conflict> GeometricHashing::getConflicts(size_t index1, size_t index
     size_t pointer1 = 0, pointer2 = 0;
 
     std::vector<Conflict> conflicts;
-    for (auto it = potential_conflicts.begin(); it != potential_conflicts.end(); ++it)
+    for (const std::pair<double, double>& potential_conflict : potential_conflicts)
     {
-        double start_time = it->first, finish_time = it->second;
+        double start_time = potential_conflict.first, finish_time = potential_conflict.second;
         while (pointer1 < route1.size() && route1.edge(pointer1)->a()->t() < start_time)
         {
             ++pointer1;
@@ -125,6 +122,10 @@ std::vector<Conflict> GeometricHashing::getConflicts(size_t index1, size_t index
         double open_time = 0.0;
         bool in_conflict = false;
 
+        if (pointer1 == route1.size() || pointer2 == route2.size())
+        {
+            continue;
+        }
         double t = std::max(route1.point(pointer1)->t(), route2.point(pointer2)->t());
         double dist;
         if (route1.edge(pointer1)->distance(*route2.edge(pointer2), t, dist) && dist <= d)
@@ -138,7 +139,6 @@ std::vector<Conflict> GeometricHashing::getConflicts(size_t index1, size_t index
             double intersect_time;
             if (route1.edge(pointer1)->intersect(*route2.edge(pointer2), d, intersect_time))
             {
-    //            std::cout << "T = " << ct << std::endl;
                 if (in_conflict)
                 {
                     conflicts.push_back(Conflict(index1, index2, open_time, intersect_time));
@@ -150,7 +150,16 @@ std::vector<Conflict> GeometricHashing::getConflicts(size_t index1, size_t index
                     in_conflict = true;
                 }
             }
+            if (route1.edge(pointer1)->a()->t() < route2.edge(pointer2)->a()->t())
+            {
+                ++pointer1;
+            }
+            else
+            {
+                ++pointer2;
+            }
         }
+
         if (in_conflict)
         {
             double finish_time = std::min(route1.point(route1.size())->t(), route2.point(route2.size())->t());
