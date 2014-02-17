@@ -1,9 +1,9 @@
 #pragma once
 
-#include "route.h"
-#include "edge.h"
-#include "route.h"
-#include "conflict.h"
+#include "core/route.h"
+#include "core/edge.h"
+#include "core/route.h"
+#include "core/conflict.h"
 #include "drawer.h"
 #include <vector>
 #include <QtGui/QMainWindow>

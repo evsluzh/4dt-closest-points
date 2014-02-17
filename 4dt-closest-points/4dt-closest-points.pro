@@ -21,32 +21,32 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     mainwindow.cpp \
-    point.cpp \
-    route.cpp \
+    core/point.cpp \
+    core/route.cpp \
     routereader.cpp \
-    simplepredictor.cpp \
-    edge.cpp \
-    geometrichashing.cpp \
-    conflictpredictor.cpp \
+    core/simplepredictor.cpp \
+    core/edge.cpp \
+    core/geometrichashing.cpp \
+    core/conflictpredictor.cpp \
     generatedialog.cpp \
     routesgenerator.cpp \
     routewriter.cpp \
-    conflict.cpp \
+    core/conflict.cpp \
     drawer.cpp
 
 HEADERS += \
-    conflictpredictor.h \
-    geometrichashing.h \
+    core/conflictpredictor.h \
+    core/geometrichashing.h \
     mainwindow.h \
-    point.h \
-    route.h \
+    core/point.h \
+    core/route.h \
     simplepredictor.h \
     routereader.h \
-    edge.h \
+    core/edge.h \
     generatedialog.h \
     routesgenerator.h \
     routewriter.h \
-    conflict.h \
+    core/conflict.h \
     drawer.h
 
 FORMS += \

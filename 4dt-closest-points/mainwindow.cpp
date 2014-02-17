@@ -2,9 +2,9 @@
 #include "ui_mainwindow.h"
 #include "routereader.h"
 #include "routewriter.h"
-#include "conflictpredictor.h"
-#include "simplepredictor.h"
-#include "geometrichashing.h"
+#include "core/conflictpredictor.h"
+#include "core/simplepredictor.h"
+#include "core/geometrichashing.h"
 #include "generatedialog.h"
 #include "routesgenerator.h"
 #include <QtGui/QPainter>

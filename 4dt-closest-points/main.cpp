@@ -1,8 +1,8 @@
 #include <QtGui/QApplication>
-#include "point.h"
-#include "route.h"
+#include "core/point.h"
+#include "core/route.h"
 #include "routereader.h"
-#include "geometrichashing.h"
+#include "core/geometrichashing.h"
 #include "mainwindow.h"
 
 int main(int argc, char *argv[])

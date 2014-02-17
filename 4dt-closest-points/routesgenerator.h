@@ -1,6 +1,6 @@
 #pragma once
-#include "route.h"
-#include "point.h"
+#include "core/route.h"
+#include "core/point.h"
 #include <vector>
 
 struct RoutesGenerator

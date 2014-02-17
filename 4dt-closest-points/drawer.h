@@ -1,7 +1,7 @@
 #pragma once
-#include "point.h"
-#include "conflict.h"
-#include "route.h"
+#include "core/point.h"
+#include "core/conflict.h"
+#include "core/route.h"
 #include <vector>
 #include <QtGui/QLabel>
 #include <QtGui/QPainter>
