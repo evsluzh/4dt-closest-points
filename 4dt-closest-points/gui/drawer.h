@@ -1,11 +1,11 @@
 #pragma once
+#include <QtGui/QLabel>
+#include <QtGui/QPainter>
+#include <vector>
+#include <boost/function.hpp>
 #include "core/point.h"
 #include "core/conflict.h"
 #include "core/route.h"
-#include <vector>
-#include <QtGui/QLabel>
-#include <QtGui/QPainter>
-#include <boost/function.hpp>
 
 struct Drawer
 {

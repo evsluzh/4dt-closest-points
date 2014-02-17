@@ -1,9 +1,8 @@
 #pragma once
-
-#include "core/route.h"
 #include <fstream>
 #include <vector>
 #include <iostream>
+#include "core/route.h"
 
 struct RouteWriter
 {

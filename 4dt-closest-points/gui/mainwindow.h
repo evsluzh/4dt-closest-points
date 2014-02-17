@@ -1,14 +1,13 @@
 #pragma once
-
+#include <QtGui/QMainWindow>
+#include <QtGui/QLabel>
+#include <vector>
+#include <boost/function.hpp>
 #include "core/route.h"
 #include "core/edge.h"
 #include "core/route.h"
 #include "core/conflict.h"
 #include "drawer.h"
-#include <vector>
-#include <QtGui/QMainWindow>
-#include <QtGui/QLabel>
-#include <boost/function.hpp>
 
 namespace Ui
 {

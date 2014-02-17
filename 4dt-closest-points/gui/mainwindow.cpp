@@ -1,15 +1,15 @@
+#include <QtGui/QPainter>
+#include <QtGui/QFileDialog>
+#include <boost/scoped_ptr.hpp>
+#include "core/conflictpredictor.h"
+#include "core/simplepredictor.h"
+#include "core/geometrichashing.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "routereader.h"
 #include "routewriter.h"
-#include "core/conflictpredictor.h"
-#include "core/simplepredictor.h"
-#include "core/geometrichashing.h"
 #include "generatedialog.h"
 #include "routesgenerator.h"
-#include <QtGui/QPainter>
-#include <QtGui/QFileDialog>
-#include <boost/scoped_ptr.hpp>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -134,7 +134,7 @@ void MainWindow::on_sliderD_valueChanged(int)
     draw();
 }
 
-void MainWindow::on_listWidget_currentRowChanged(int currentRow)
+void MainWindow::on_listWidget_currentRowChanged(int)
 {
     draw();
 }

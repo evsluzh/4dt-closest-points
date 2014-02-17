@@ -1,6 +1,18 @@
-QMAKE_CXXFLAGS += -std=c++0x
+INCLUDEPATH += . ..
 
 TEMPLATE = lib
+
+CONFIG += staticlib
+
+QMAKE_CXXFLAGS += -std=c++0x
+
+HEADERS += \
+    conflictpredictor.h \
+    geometrichashing.h \
+    point.h \
+    route.h \
+    edge.h \
+    conflict.h
 
 SOURCES += \
     point.cpp \
@@ -10,11 +22,3 @@ SOURCES += \
     geometrichashing.cpp \
     conflictpredictor.cpp \
     conflict.cpp
-
-HEADERS += \
-    conflictpredictor.h \
-    geometrichashing.h \
-    point.h \
-    route.h \
-    edge.h \
-    conflict.h

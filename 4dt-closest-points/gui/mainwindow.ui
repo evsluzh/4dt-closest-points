@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>719</height>
+    <height>799</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,9 +18,9 @@
     <property name="geometry">
      <rect>
       <x>390</x>
-      <y>350</y>
-      <width>381</width>
-      <height>300</height>
+      <y>410</y>
+      <width>391</width>
+      <height>331</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -34,7 +34,7 @@
     <property name="geometry">
      <rect>
       <x>390</x>
-      <y>70</y>
+      <y>110</y>
       <width>381</width>
       <height>271</height>
      </rect>
@@ -59,7 +59,7 @@
       <x>10</x>
       <y>10</y>
       <width>371</width>
-      <height>641</height>
+      <height>731</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
@@ -87,6 +87,19 @@
       </widget>
      </item>
      <item>
+      <widget class="QLabel" name="label_7">
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>25</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>XT projection:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QLabel" name="projection_xt">
        <property name="frameShape">
         <enum>QFrame::Box</enum>
@@ -97,12 +110,44 @@
       </widget>
      </item>
      <item>
+      <widget class="QLabel" name="label_5">
+       <property name="maximumSize">
+        <size>
+         <width>369</width>
+         <height>25</height>
+        </size>
+       </property>
+       <property name="baseSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>YT projection:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QLabel" name="projection_yt">
        <property name="frameShape">
         <enum>QFrame::Box</enum>
        </property>
        <property name="text">
         <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_6">
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>25</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>ZT projection:</string>
        </property>
       </widget>
      </item>
@@ -187,6 +232,32 @@
     </property>
     <property name="maximum">
      <number>3600</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>80</y>
+      <width>181</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Conflicts list:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>390</y>
+      <width>131</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>XY projection:</string>
     </property>
    </widget>
   </widget>

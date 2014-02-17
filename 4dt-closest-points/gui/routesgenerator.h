@@ -1,7 +1,7 @@
 #pragma once
+#include <vector>
 #include "core/route.h"
 #include "core/point.h"
-#include <vector>
 
 struct RoutesGenerator
 {
