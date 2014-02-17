@@ -36,11 +36,11 @@ std::vector<Route> RoutesGenerator::generate() const
         double dt = 1.0 * (finish_time - start_time) / m_route_points;
 
         size_t cur = rand() % m_based_points;
-        double cx = based_points[cur].x(), cy = based_points[cur].y();
+        double cx = based_points[cur].x(), cy = based_points[cur].y(), cz = 10000;
         double time = start_time;
 
         std::vector<Point> points;
-        Point init(cx, cy, 0, 0, start_time);
+        Point init(cx, cy, cz, 0, 0, 0, start_time);
         points.push_back(init);
         time += dt;
         while ((int)points.size() < m_route_points)
@@ -60,7 +60,7 @@ std::vector<Route> RoutesGenerator::generate() const
                 }
                 cx += dx;
                 cy += dy;
-                Point cur(cx, cy, dx, dy, time);
+                Point cur(cx, cy, cz, dx, dy, 0, time);
                 points.push_back(cur);
                 time += dt;
 //                std::cout << cx << " " << cy << ' ' << nx << ' ' << ny << std::endl;
@@ -87,7 +87,7 @@ std::vector<Point> RoutesGenerator::generate_points(int n, int w, int h) const
     std::vector<Point> res(n);
     for (int i = 0; i < n; ++i)
     {
-        res[i] = Point(rand() % w, rand() % h);
+        res[i] = Point(rand() % w, rand() % h, 10000);
     }
     return res;
 }

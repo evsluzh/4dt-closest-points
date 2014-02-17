@@ -69,10 +69,11 @@ bool Edge::get_point(double t, Point& point) const
     double t1 = m_a->t();
     double t2 = m_b->t();
     double k1 = (t2 - t) / (t2 - t1);
-    double k2 = (t - t1) / (t2 - t1);
+    double k2 = 1.0 - k1;
     double x = m_a->x() * k1 + m_b->x() * k2;
     double y = m_a->y() * k1 + m_b->y() * k2;
-    point = Point(x, y, t1 * k1 + t2 * k2);
+    double z = m_a->z() * k1 + m_b->z() * k2;
+    point = Point(x, y, z, t1 * k1 + t2 * k2);
     return true;
 }
 

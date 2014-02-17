@@ -16,9 +16,10 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    m_drawer.add_graph(Drawer::Graph(&Point::t, &Point::x, ui->proection_xt));
-    m_drawer.add_graph(Drawer::Graph(&Point::t, &Point::y, ui->proection_yt));
-    m_drawer.add_graph(Drawer::Graph(&Point::x, &Point::y, ui->proection_yx));
+    m_drawer.add_graph(Drawer::Graph(&Point::t, &Point::x, ui->projection_xt));
+    m_drawer.add_graph(Drawer::Graph(&Point::t, &Point::y, ui->projection_yt));
+    m_drawer.add_graph(Drawer::Graph(&Point::t, &Point::z, ui->projection_zt));
+    m_drawer.add_graph(Drawer::Graph(&Point::x, &Point::y, ui->projection_yx));
 }
 
 MainWindow::~MainWindow()
