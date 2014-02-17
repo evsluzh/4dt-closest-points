@@ -35,11 +35,13 @@ void MainWindow::find_conflicts()
     double threshold = ui->spinD->value();
     double start_time = clock();
     boost::scoped_ptr<ConflictPredictor> predictor(new GeometricHashing(m_routes));
+    double after_time = clock();
 //    boost::scoped_ptr<ConflictPredictor> predictor(new SimplePredictor(m_routes));
     m_conflicts = predictor->getConflicts(threshold);
     double finish_time = clock();
+    double precalc_time = (after_time - start_time) / CLOCKS_PER_SEC;
     double total_time = (finish_time - start_time) / CLOCKS_PER_SEC;
-    ui->time_label->setText(QString("Total time: %1").arg(total_time, 3));
+    ui->time_label->setText(QString("Total time: %1 (%2)").arg(total_time, 3).arg(precalc_time, 3));
     std::cout << "Conflicts count: " << m_conflicts.size() << std::endl;
     ui->listWidget->clear();
     ui->listWidget->addItem("<non selected>");
