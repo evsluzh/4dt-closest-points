@@ -79,7 +79,7 @@ GeometricHashing::GeometricHashing(const std::vector<Route>& routes) :
                         const auto& positions = blocks[cur];
                         for (auto it = positions.begin(); it != positions.end(); ++it)
                         {
-                            std::vector< std::pair<double, double> >& current_conflicts = m_conflicts[std::make_pair(it->first, i)];
+                            std::vector< std::pair<double, double> >& current_conflicts = m_potential_conflicts[std::make_pair(it->first, i)];
                             if (!current_conflicts.empty() && previous_time <= current_conflicts.back().second)
                             {
                                 current_conflicts.back().second = next_time;
@@ -107,7 +107,7 @@ std::vector<Conflict> GeometricHashing::getConflicts(size_t index1, size_t index
     }
     const Route& route1 = m_routes[index1];
     const Route& route2 = m_routes[index2];
-    std::vector< std::pair<double, double> > potential_conflicts = m_conflicts[std::make_pair(index1, index2)];
+    std::vector< std::pair<double, double> > potential_conflicts = m_potential_conflicts[std::make_pair(index1, index2)];
     size_t pointer1 = 0, pointer2 = 0;
 
     std::vector<Conflict> conflicts;

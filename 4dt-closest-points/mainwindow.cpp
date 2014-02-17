@@ -28,14 +28,24 @@ MainWindow::~MainWindow()
 
 void MainWindow::find_conflicts()
 {
+    if (m_routes.empty())
+    {
+        return;
+    }
     double threshold = ui->spinD->value();
+    double start_time = clock();
     boost::scoped_ptr<ConflictPredictor> predictor(new GeometricHashing(m_routes));
+//    boost::scoped_ptr<ConflictPredictor> predictor(new SimplePredictor(m_routes));
     m_conflicts = predictor->getConflicts(threshold);
+    double finish_time = clock();
+    double total_time = (finish_time - start_time) / CLOCKS_PER_SEC;
+    ui->time_label->setText(QString("Total time: %1").arg(total_time, 3));
     std::cout << "Conflicts count: " << m_conflicts.size() << std::endl;
     ui->listWidget->clear();
+    ui->listWidget->addItem("<non selected>");
     for (const Conflict& conflict : m_conflicts)
     {
-        QString name = QString("Conflict between trajectories %1 and %2. Time: [%3, %4]")
+        QString name = QString("trajectories %1 and %2. Time: [%3, %4]")
                 .arg(conflict.route1_index())
                 .arg(conflict.route2_index())
                 .arg(conflict.start_time())
@@ -46,12 +56,17 @@ void MainWindow::find_conflicts()
 
 void MainWindow::draw()
 {
+    if (m_routes.empty())
+    {
+        return;
+    }
     double t = ui->spinT->value();
     int index = ui->listWidget->currentRow();
     std::vector<Route> routes;
     std::vector<Conflict> conflicts;
-    if (index != -1)
+    if (index > 0)
     {
+        --index;
         Conflict conflict(0, 1, m_conflicts[index].start_time(), m_conflicts[index].finish_time());
         conflicts.push_back(conflict);
         size_t index1 = m_conflicts[index].route1_index();

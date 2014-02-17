@@ -10,7 +10,7 @@ SimplePredictor::SimplePredictor(const std::vector<Route>& routes)
 
 }
 
-std::vector<Conflict> SimplePredictor::getConflict(size_t index1, size_t index2, double d)
+std::vector<Conflict> SimplePredictor::getConflicts(size_t index1, size_t index2, double d)
 {
     std::cout << "getConflict " << d << std::endl;
     size_t ptr1 = 0, ptr2 = 0;
@@ -55,7 +55,7 @@ std::vector<Conflict> SimplePredictor::getConflict(size_t index1, size_t index2,
         double t;
         if (route1.edge(ptr1)->intersect(*route2.edge(ptr2), d, t))
         {
-            std::cout << "T = " << t << std::endl;
+//            std::cout << "T = " << t << std::endl;
             if (in_conflict)
             {
                 conflicts.push_back(Conflict(index1, index2, open_time, t));

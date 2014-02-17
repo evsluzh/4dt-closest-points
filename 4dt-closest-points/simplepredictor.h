@@ -9,5 +9,5 @@ struct SimplePredictor
 {
     SimplePredictor(const std::vector<Route>& routes);
 
-    virtual std::vector<Conflict> getConflict(size_t index1, size_t index2, double d);
+    virtual std::vector<Conflict> getConflicts(size_t index1, size_t index2, double d);
 };
