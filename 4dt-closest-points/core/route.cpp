@@ -72,7 +72,7 @@ int Route::find_edge_by_time(double t) const
             r = m;
         }
     }
-    if (r >= size())
+    if (r >= (int)size())
     {
         return -1;
     }

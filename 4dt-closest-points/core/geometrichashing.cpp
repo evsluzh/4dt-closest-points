@@ -127,10 +127,6 @@ std::vector<Conflict> GeometricHashing::getConflicts(size_t index1, size_t index
         double open_time = 0.0;
         bool in_conflict = false;
 
-        if (pointer1 == route1.size() || pointer2 == route2.size())
-        {
-            continue;
-        }
         double t = std::max(route1.point(pointer1)->t(), route2.point(pointer2)->t());
         double dist;
         if (route1.edge(pointer1)->distance(*route2.edge(pointer2), t, dist) && dist <= d)
@@ -149,7 +145,7 @@ std::vector<Conflict> GeometricHashing::getConflicts(size_t index1, size_t index
 //        {
 //            std::cout << "Second edge: " << pointer2 << " " << route2.edge(pointer2)->a()->t() << " " << route2.edge(pointer2)->b()->t() << std::endl;
 //        }
-        while (pointer1 < route1.size() && pointer2 < route2.size() && route1.edge(pointer1)->a()->t() < finish_time && route2.edge(pointer2)->a()->t() < finish_time)
+        while (pointer1 < (int)route1.size() && pointer2 < (int)route2.size() && route1.edge(pointer1)->a()->t() < finish_time && route2.edge(pointer2)->a()->t() < finish_time)
         {
             std::pair<double, double> conflict;
             if (calc_local(in_conflict, open_time, conflict, d, *route1.edge(pointer1), *route2.edge(pointer2)))

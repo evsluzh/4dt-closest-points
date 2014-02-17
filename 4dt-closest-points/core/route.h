@@ -36,5 +36,5 @@ struct Route
     friend std::ostream& operator<< (std::ostream &out, const Route &route);
 
 private:
-    std::vector<boost::shared_ptr<Edge>> m_edges;
+    std::vector<boost::shared_ptr<Edge> > m_edges;
 };
