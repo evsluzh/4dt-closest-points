@@ -5,9 +5,10 @@
 #include <cassert>
 #include <boost/shared_ptr.hpp>
 
-Block::Block(int x, int y)
+Block::Block(int x, int y, int z)
     : m_x(x)
     , m_y(y)
+    , m_z(z)
 {
 
 }
@@ -15,6 +16,7 @@ Block::Block(int x, int y)
 Block::Block(const Point& point, double d)
     : m_x(point.x() / d)
     , m_y(point.y() / d)
+    , m_z(point.z() / d)
 {
 }
 
@@ -28,13 +30,22 @@ int Block::y() const
     return m_y;
 }
 
+int Block::z() const
+{
+    return m_z;
+}
+
 bool operator < (const Block& a, const Block& b)
 {
     if (a.m_x != b.m_x)
     {
         return a.m_x < b.m_x;
     }
-    return a.m_y < b.m_y;
+    if (a.m_y != b.m_y)
+    {
+        return a.m_y < b.m_y;
+    }
+    return a.m_z < b.m_z;
 }
 
 
@@ -57,36 +68,41 @@ GeometricHashing::GeometricHashing(const std::vector<Route>& routes) :
     std::vector<size_t> pointers(routes.size(), 0);
 
     double previous_time = start_time;
+    int iterations = 0;
     for (double t = start_time; t <= finish_time;)
     {
+        ++iterations;
         double next_time = t + dt;
         std::map<Block, std::vector< std::pair<size_t, size_t> > > blocks;
         for (size_t i = 0; i < routes.size(); ++i)
         {
-            Point point;
-            if (routes[i].get_position(t, point))
+            while (pointers[i] < routes[i].size() && routes[i].edge(pointers[i])->b()->t() < t)
             {
-                while (pointers[i] < routes[i].size() && routes[i].edge(pointers[i])->b()->t() < t)
-                {
-                    ++pointers[i];
-                }
+                ++pointers[i];
+            }
+            Point point;
+            if (pointers[i] < (int)routes[i].size() && routes[i].edge(pointers[i])->a()->t() <= t && routes[i].edge(pointers[i])->get_point(t, point))
+            {
                 Block block(point, dmax);
                 for (int dx = -1; dx <= 1; ++dx)
                 {
                     for (int dy = -1; dy <= 1; ++dy)
                     {
-                        Block cur(block.x() + dx, block.y() + dy);
-                        const auto& positions = blocks[cur];
-                        for (auto it = positions.begin(); it != positions.end(); ++it)
+                        for (int dz = -1; dz <= 1; ++dz)
                         {
-                            std::vector< std::pair<double, double> >& current_conflicts = m_potential_conflicts[std::make_pair(it->first, i)];
-                            if (!current_conflicts.empty() && previous_time <= current_conflicts.back().second)
+                            Block cur(block.x() + dx, block.y() + dy, block.z() + dz);
+                            const auto& positions = blocks[cur];
+                            for (auto it = positions.begin(); it != positions.end(); ++it)
                             {
-                                current_conflicts.back().second = next_time;
-                            }
-                            else
-                            {
-                                current_conflicts.push_back(std::make_pair(previous_time, next_time));
+                                std::vector< std::pair<double, double> >& current_conflicts = m_potential_conflicts[std::make_pair(it->first, i)];
+                                if (!current_conflicts.empty() && previous_time <= current_conflicts.back().second)
+                                {
+                                    current_conflicts.back().second = next_time;
+                                }
+                                else
+                                {
+                                    current_conflicts.push_back(std::make_pair(previous_time, next_time));
+                                }
                             }
                         }
                     }
@@ -97,6 +113,7 @@ GeometricHashing::GeometricHashing(const std::vector<Route>& routes) :
         previous_time = t;
         t = next_time;
     }
+    std::cout << "Iterations = " << iterations << std::endl;
 }
 
 std::vector<Conflict> GeometricHashing::getConflicts(size_t index1, size_t index2, double d)
@@ -221,7 +238,7 @@ bool GeometricHashing::calc_local(bool& open, double& open_time, std::pair<doubl
 
     const double EPS = 1.0e-10;
 
-    if (open && start_value > EPS)
+    if (open && start_value > 0)
     {
         assert(false);
     }
@@ -262,11 +279,11 @@ bool GeometricHashing::calc_local(bool& open, double& open_time, std::pair<doubl
     }
     if (open)
     {
-        assert(end_value < EPS);
+        assert(end_value < 0);
     }
     else
     {
-        assert(end_value > EPS);
+        assert(end_value > 0);
     }
     return res;
 }

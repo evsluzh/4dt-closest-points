@@ -13,7 +13,7 @@ const double vmax = 220.0;
 
 struct Block
 {
-    Block(int x, int y);
+    Block(int x, int y, int z);
 
     Block(const Point& point, double d);
 
@@ -21,10 +21,12 @@ struct Block
 
     int y() const;
 
+    int z() const;
+
     friend bool operator < (const Block& a, const Block& b);
 
 private:
-    int m_x, m_y;
+    int m_x, m_y, m_z;
 };
 
 struct GeometricHashing :
