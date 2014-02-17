@@ -99,7 +99,6 @@ void Drawer::draw_conflicts(const Graph& graph, QPainter* painter, const std::ve
     {
         size_t index1 = conflict.route1_index();
         size_t index2 = conflict.route2_index();
-        std::cout << index1 << ' ' << index2 << std::endl;
         double start_time = conflict.start_time();
         double finish_time = conflict.finish_time();
         for (size_t i = 0; i < 2; ++i)

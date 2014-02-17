@@ -113,12 +113,17 @@ std::vector<Conflict> GeometricHashing::getConflicts(size_t index1, size_t index
     std::vector<Conflict> conflicts;
     for (const std::pair<double, double>& potential_conflict : potential_conflicts)
     {
-        double start_time = potential_conflict.first, finish_time = potential_conflict.second;
-        while (pointer1 < route1.size() && route1.edge(pointer1)->a()->t() < start_time)
+        double start_time = std::max(potential_conflict.first, std::max(route1.point(0)->t(), route2.point(0)->t()));
+        double finish_time = std::min(potential_conflict.second, std::min(route1.point(route1.size())->t(), route2.point(route2.size())->t()));
+        if (start_time > finish_time)
+        {
+            continue;
+        }
+        while (pointer1 < route1.size() && route1.edge(pointer1)->b()->t() < start_time)
         {
             ++pointer1;
         }
-        while (pointer2 < route2.size() && route2.edge(pointer2)->a()->t() < start_time)
+        while (pointer2 < route2.size() && route2.edge(pointer2)->b()->t() < start_time)
         {
             ++pointer2;
         }
@@ -137,7 +142,16 @@ std::vector<Conflict> GeometricHashing::getConflicts(size_t index1, size_t index
             open_time = t;
         }
 
-        std::cout << "GO " << open_time << ' ' << dist * dist << ' ' << (in_conflict ? "open" : "close") << std::endl;
+//        std::cout << "GO " << open_time << ' ' << dist * dist << ' ' << (in_conflict ? "open" : "close") << std::endl;
+//        std::cout << "start_time = " << start_time << std::endl;
+//        if (pointer1 < route1.size())
+//        {
+//            std::cout << "First edge: " << pointer1 << " " << route1.edge(pointer1)->a()->t() << " " << route1.edge(pointer1)->b()->t() << std::endl;
+//        }
+//        if (pointer2 < route2.size())
+//        {
+//            std::cout << "Second edge: " << pointer2 << " " << route2.edge(pointer2)->a()->t() << " " << route2.edge(pointer2)->b()->t() << std::endl;
+//        }
         while (pointer1 < route1.size() && pointer2 < route2.size() && route1.edge(pointer1)->a()->t() < finish_time && route2.edge(pointer2)->a()->t() < finish_time)
         {
             std::pair<double, double> conflict;
@@ -159,7 +173,7 @@ std::vector<Conflict> GeometricHashing::getConflicts(size_t index1, size_t index
                     in_conflict = true;
                 }
             }*/
-            if (route1.edge(pointer1)->a()->t() < route2.edge(pointer2)->a()->t())
+            if (route1.edge(pointer1)->b()->t() < route2.edge(pointer2)->b()->t())
             {
                 ++pointer1;
             }
@@ -192,7 +206,7 @@ std::pair<double, std::pair<double, double> > coord(double t11, double t12, doub
 {
     std::pair<double, double> fx1 = get_linear_function(x11, x12, t11, t12);
     std::pair<double, double> fx2 = get_linear_function(x21, x22, t21, t22);
-    std::pair<double, double> fx = std::make_pair(fx1.first + fx2.first, fx1.second + fx2.second);
+    std::pair<double, double> fx = std::make_pair(fx1.first - fx2.first, fx1.second - fx2.second);
     return std::make_pair(fx.first * fx.first, std::make_pair(2 * fx.first * fx.second, fx.second * fx.second));
 }
 
@@ -213,7 +227,7 @@ bool GeometricHashing::calc_local(bool& open, double& open_time, std::pair<doubl
 
     double start_value = (ka * start_time + kb) * start_time + kc;
     double end_value = (ka * finish_time + kb) * finish_time + kc;
-    std::cout << "(" << start_time << ", " << finish_time << "): (" << start_value << ", " << end_value << ")" << std::endl;
+//    std::cout << "Distances: (" << start_time << ", " << finish_time << "): (" << start_value << ", " << end_value << ")" << std::endl;
 
     const double EPS = 1.0e-10;
 
@@ -258,11 +272,11 @@ bool GeometricHashing::calc_local(bool& open, double& open_time, std::pair<doubl
     }
     if (open)
     {
-        assert(end_value > EPS);
+        assert(end_value < EPS);
     }
     else
     {
-        assert(end_value < EPS);
+        assert(end_value > EPS);
     }
     return res;
 }

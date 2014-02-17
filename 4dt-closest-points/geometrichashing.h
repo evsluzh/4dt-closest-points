@@ -8,7 +8,7 @@
 #include <set>
 #include <map>
 
-const double dmax = 500.0;
+const double dmax = 2000.0;
 const double vmax = 220.0;
 
 struct Block
