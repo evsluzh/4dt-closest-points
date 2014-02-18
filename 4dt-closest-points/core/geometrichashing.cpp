@@ -73,7 +73,7 @@ GeometricHashing::GeometricHashing(const std::vector<Route>& routes) :
     {
         ++iterations;
         double next_time = t + dt;
-        std::map<Block, std::vector< std::pair<size_t, size_t> > > blocks;
+        std::map<Block, std::vector<size_t> > blocks;
         for (size_t i = 0; i < routes.size(); ++i)
         {
             while (pointers[i] < routes[i].size() && routes[i].edge(pointers[i])->b()->t() < t)
@@ -81,7 +81,7 @@ GeometricHashing::GeometricHashing(const std::vector<Route>& routes) :
                 ++pointers[i];
             }
             Point point;
-            if (pointers[i] < (int)routes[i].size() && routes[i].edge(pointers[i])->a()->t() <= t && routes[i].edge(pointers[i])->get_point(t, point))
+            if (pointers[i] < routes[i].size() && routes[i].edge(pointers[i])->a()->t() <= t && routes[i].edge(pointers[i])->get_point(t, point))
             {
                 Block block(point, dmax);
                 for (int dx = -1; dx <= 1; ++dx)
@@ -94,7 +94,7 @@ GeometricHashing::GeometricHashing(const std::vector<Route>& routes) :
                             const auto& positions = blocks[cur];
                             for (auto it = positions.begin(); it != positions.end(); ++it)
                             {
-                                std::vector< std::pair<double, double> >& current_conflicts = m_potential_conflicts[std::make_pair(it->first, i)];
+                                std::vector< std::pair<double, double> >& current_conflicts = m_potential_conflicts[std::make_pair(*it, i)];
                                 if (!current_conflicts.empty() && previous_time <= current_conflicts.back().second)
                                 {
                                     current_conflicts.back().second = next_time;
@@ -107,7 +107,7 @@ GeometricHashing::GeometricHashing(const std::vector<Route>& routes) :
                         }
                     }
                 }
-                blocks[block].push_back(std::make_pair(i, pointers[i]));
+                blocks[block].push_back(i);
             }
         }
         previous_time = t;

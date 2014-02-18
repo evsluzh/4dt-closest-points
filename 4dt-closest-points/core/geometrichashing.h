@@ -29,7 +29,7 @@ private:
     int m_x, m_y, m_z;
 };
 
-struct GeometricHashing :
+struct __attribute__ ((visibility ("default"))) GeometricHashing :
         ConflictPredictor
 {
     GeometricHashing(const std::vector<Route>& routes);

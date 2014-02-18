@@ -9,7 +9,7 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/function.hpp>
 
-struct Route
+struct __attribute__ ((visibility ("default"))) Route
 {
     Route(size_t size);
 

@@ -3,7 +3,7 @@
 #include "point.h"
 #include <boost/shared_ptr.hpp>
 
-struct Edge
+struct __attribute__ ((visibility ("default"))) Edge
 {
     Edge(boost::shared_ptr<Point> a, boost::shared_ptr<Point> b);
 

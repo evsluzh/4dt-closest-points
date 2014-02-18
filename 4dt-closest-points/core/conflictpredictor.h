@@ -4,7 +4,7 @@
 #include "conflict.h"
 #include <vector>
 
-struct ConflictPredictor
+struct __attribute__ ((visibility ("default"))) ConflictPredictor
 {
     ConflictPredictor(const std::vector<Route>& routes);
 

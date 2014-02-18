@@ -3,7 +3,7 @@
 #include <istream>
 #include <iostream>
 
-struct Point
+struct __attribute__ ((visibility ("default")))  Point
 {
     Point(double x, double y, double z, double vx, double vy, double vz, double t);
 

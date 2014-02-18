@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdlib>
 
-struct Conflict
+struct __attribute__ ((visibility ("default"))) Conflict
 {
     Conflict(size_t route1_index, size_t route2_index, double start_time, double finish_time);
     size_t route1_index() const;

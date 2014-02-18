@@ -11,6 +11,7 @@ HEADERS += \
     geometrichashing.h \
     point.h \
     route.h \
+    simplepredictor.h \
     edge.h \
     conflict.h
 
